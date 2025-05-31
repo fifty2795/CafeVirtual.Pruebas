@@ -1,0 +1,143 @@
+﻿@using CafeVirtual.Pruebas.Cliente.Models
+@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model AgregarUsuarioViewModel
+
+<script src="~/js/Usuario.js"></script>
+
+<div class="section-header">
+    <h1><span><i class="fas fa-user me-2"></i></span>Usuarios</h1>
+</div>
+
+<div class="my-form-container" data-idusuario="@User.FindFirst("IdUsuario").Value"> @* Set idUsuario Claim *@
+    <form id="formUsuario" class="form-container">
+
+        @* Id *@
+
+        <input type="hidden" id="IdUsuario" name="IdUsuario" value="@Model.Usuario.IdUsuario" />
+
+        <div class="form-row">
+
+            @* Nombre *@
+
+            <div class="col-md-3">
+                <label id="lblNombre" class="label-concepto">Nombre</label>
+                <input type="text" class="form-control" id="txtNombre" name="Nombre" value="@Model.Usuario.Nombre" required />
+            </div>
+
+            @* Apellido paterno *@
+
+            <div class="col-md-3">
+                <label id="lblAppPaterno" class="label-concepto"> Apellido Paterno</label>
+                <input type="text" class="form-control" id="txtApellidoPaterno" name="ApellidoPaterno" value="@Model.Usuario.ApellidoPaterno" required />
+            </div>
+
+            @* Apellido materno *@
+
+            <div class="col-md-3">
+                <label id="lblAppMaterno" class="label-concepto">Apellido Materno</label>
+                <input type="text" class="form-control" id="txtApellidoMaterno" name="ApellidoMaterno" value="@Model.Usuario.ApellidoMaterno" required />
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            @* Email *@
+
+            <div class="col-md-3">
+                <label id="lblEmail" class="label-concepto">Email</label>
+                <input type="text" class="form-control" id="txtEmail" name="Email" value="@Model.Usuario.Email" required />
+            </div>
+
+            @* Rol *@
+
+            <div class="col-md-3 custom-select-wrapper">
+                <label class="label-concepto" asp-for="Usuario.IdRol">Rol</label>
+                <select id="ddlRol" asp-for="Usuario.IdRol" asp-items="Model.Roles" class="form-control custom-select" data-validate="select" required>
+                    <option value="">Seleccione un rol</option>
+                </select>
+            </div>
+
+        </div>
+
+        @* <div class="form-row">
+
+            Password
+
+            <div class="col-md-3">
+            <label id="lblPassword" class="label-concepto">Password</label>
+            <input type="password" id="txtPassword" name="Password" class="form-control" />
+            </div>
+
+            Confirmar Password
+
+            <div class="col-md-3">
+            <label id="lblPasswordConfirm" class="label-concepto">Confirmar password</label>
+            <input type="password" id="txtPasswordConfirm" class="form-control" />
+            </div>
+
+        </div> *@
+
+        <div class="form-row">
+
+            @* Fecha Creacion *@
+
+          @*   <div class="col-md-3">
+                <label for="lblFechaCreacion" class="label-concepto">Fecha Creacion</label>
+                <input type="text" class="form-control" id="txtFechaCreacion" name="FechaCreacion" placeholder="dd/mm/yyyy" value="@Model.Usuario.FechaCreacion.ToShortDateString()" data-validate="fecha" required />
+            </div> *@
+
+            @* Imagen *@
+
+            <div class="col-md-4">
+                <label id="lblImagen" class="label-concepto">Imagen de perfil</label>
+                <input id="imagenPerfil" type="file" name="imagenPerfil" class="form-control mb-2" accept="image/*" required />
+            </div>
+
+            <div class="col-md-1">
+            </div>
+
+            @* Activo *@
+
+            <div class="col-md-2">
+                <label id="lblActivo" class="label-concepto">Activo</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="chkBoxActivo" name="Activo" @(Model.Usuario.Activo ? "checked" : "") />
+                </div>
+            </div>          
+
+        </div>
+
+        @* btn Actualizar *@
+
+        <div class="form-row">
+
+            <div class="col-md-9">
+            </div>
+
+            <div class="col-md-3">
+                <button id="btnActualizar" type="button" class="update-btn">
+                    <span><i class="fa fa-refresh"></i></span>
+                    Actualizar Usuario
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+            $('#txtFechaCreacion').datepicker({
+                dateFormat: 'dd/mm/yy',
+                autoclose: true
+            });
+        });
+
+    </script>
+}

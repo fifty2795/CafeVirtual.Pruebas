@@ -1,0 +1,82 @@
+﻿@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model ResponseViewModel<PaginatedList<TblCliente>>
+
+<div class="section-header">
+    <h1><span><i class="fas fa-users me-2"></i></span>Clientes</h1>
+</div>
+
+<div class="my-form-container">
+    <div class="form-container">
+
+        <form asp-action="Index" method="get">
+            <div class="row">
+
+                @* btn Agregar Cliente *@
+
+                <div class="col-md-3">
+                    <a asp-controller="Cliente" asp-action="AgregarCliente" class="add-btn">
+                        <span><i class="fas fa-plus-circle"></i></span>
+                        Agregar nuevo
+                    </a>
+                </div>
+
+                <div class="col-md-2">
+                </div>
+
+                @* Input busqueda *@
+
+                <div class="col-md-4">                    
+                    <input type="text" id="txtBusqueda" name="txtBusqueda" class="form-control" placeholder="Buscar por nombre, descripción o RFC" value="@ViewData["Busqueda"]" />
+                </div>
+
+                @* btn Buscar *@
+
+                <div class="col-md-3">
+                    <button class="search-btn" id="btnBuscarCliente">
+                        <span><i class="fas fa-search"></i></span>
+                        Buscar
+                    </button>
+                </div>              
+            </div>
+
+            <br />
+
+        </form>      
+
+        <hr />
+
+        <div id="ClienteTable">
+            @Html.Partial("ClientePartialView", Model)
+        </div>     
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(Model.Data.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="?pageNumber=@(Model.Data.PageIndex - 1)&txtBusqueda=@ViewData["Busqueda"]">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.Data.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.Data.PageIndex ? "active" : "")">
+                        <a class="page-link" href="?pageNumber=@i&txtBusqueda=@ViewData["Busqueda"]">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.Data.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="?pageNumber=@(Model.Data.PageIndex + 1)&txtBusqueda=@ViewData["Busqueda"]">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+@* @section Scripts {
+    <script>
+
+        $(document).ready(function () {            
+
+        });
+
+    </script>
+} *@
+

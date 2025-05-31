@@ -1,0 +1,59 @@
+﻿@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model ResponseViewModel<PaginatedList<TblRol>>
+
+<script src="~/js/Roles.js"></script>
+
+<table id="resultsTable" class="custom-table">
+    <thead>
+        <tr>
+            <th style="display: none;">ID</th>
+            <th class="text-center">NOMBRE</th>
+            <th class="text-center">DESCRIPCION</th>            
+            <th class="text-center">ACTIVO</th>            
+            <td></td>
+            <td></td>
+            <!-- Agrega más columnas según las propiedades de TblRol -->
+        </tr>
+    </thead>
+    <tbody id="userData">
+        @foreach (var rol in Model.Data.Items)
+        {
+            <tr>
+                <td style="display: none;">@rol.IdRol</td>
+                <td>@rol.Nombre</td>
+                <td class="popover-form">@rol.Descripcion</td>                
+                <td class="text-center">@rol.Activo</td>                
+            @*     <td>
+                    <button type="button"
+                            class="update-btn"
+                            onclick="window.location.href='@Url.Action("EditarRol", "Rol", new { id = rol.IdRol })'">
+                        <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                        Actualizar
+                    </button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="remove-btn"
+                            onclick="window.location.href='@Url.Action("EliminarRol", "Rol", new { id = rol.IdRol })'">
+                        <span><i class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                        Eliminar
+                    </button>
+                </td> *@
+                <td>
+                    <a href="@Url.Action("EditarRol", "Rol", new { id = rol.IdRol})"
+                       class="icon-action edit-icon" title="Editar">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("EliminarRol", "Rol", new { id = rol.IdRol })"
+                       class="icon-action delete-icon" title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+                <!-- Agrega más columnas según las propiedades de TblRol -->
+            </tr>
+        }
+    </tbody>
+</table>

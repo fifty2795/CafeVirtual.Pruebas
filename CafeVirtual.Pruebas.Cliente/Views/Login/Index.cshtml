@@ -1,0 +1,178 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+    <link rel="icon" type="image/png" href="~/images/logo.png">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Estilos para el contenedor del GIF de loading */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+            #loading img {
+                max-width: 100px;
+                max-height: 100px;
+            }
+
+        /* 🎥 Estilo para el video de fondo */
+        #bgvid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* 🧱 Contenedor centrado */
+        .login-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-container {
+            /* background-color: rgba(255, 255, 255, 0.95); */
+            background-color: rgba(255 255 255 / 54%);
+            padding: 2.5rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0f619f;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-control {
+            border-radius: 0.75rem;
+        }
+
+        .btn-primary {
+            background-color: #0f619f;
+            border-color: #0f619f;
+            border-radius: 0.75rem;
+        }
+
+            .btn-primary:hover {
+                background-color: #1f3c66;
+            }
+
+        .login-icon {
+            font-size: 3rem;
+            color: #0f619f;
+            display: block;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    @* Gif Loading *@
+    <div id="loading" style="display:none;">
+        <img src="~/gif/loading.gif" alt="Loading...">
+    </div>
+
+    <!-- Video de fondo -->
+    <video id="bgvid" playsinline autoplay muted loop>
+        <source src="~/video/fondoLogin.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Contenido centrado -->
+    <div class="login-wrapper">
+        <div class="login-container">            
+            <i class="fa-solid fa-user-circle login-icon"></i>
+            <h2 class="login-title">Iniciar Sesión</h2>
+
+            <form>
+
+                @* Email *@
+
+                <div class="mb-3">
+                    <label for="lblEmail" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="txtEmail" name="Email" required />
+                </div>                
+
+                <div class="mb-3">
+
+                    @* Password *@
+
+                    <label for="lblPassword" class="form-label">Contraseña</label>
+                    <input type="Password" class="form-control" id="txtPassword" name="Password" required />
+                    
+                    @* Show Password *@
+
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="showPassword" />
+                        <label class="form-check-label" for="showPassword">Mostrar contraseña</label>
+                    </div>
+                </div>
+
+                @* Btn Login *@
+
+                <button id="btnLogin" type="button" class="btn btn-primary w-100">Entrar</button>
+
+                @* Registrarse *@
+
+                <div class="text-center mt-3">
+                    <a href="/Login/Registro">¿No tienes cuenta? Regístrate</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mostrar contraseña script -->
+    <script>
+        const passwordInput = document.getElementById("txtPassword");
+        const showPasswordCheckbox = document.getElementById("showPassword");
+
+        showPasswordCheckbox.addEventListener("change", () => {
+            passwordInput.type = showPasswordCheckbox.checked ? "text" : "password";
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="@Url.Content("~/js/Datepicker/jquery-ui.js")"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script src="@Url.Content("~/js/General.js")"></script>
+    <script src="@Url.Content("~/js/Validacion.js")"></script>
+    <script src="@Url.Content("~/js/Login.js")"></script>    
+</body>
+</html>

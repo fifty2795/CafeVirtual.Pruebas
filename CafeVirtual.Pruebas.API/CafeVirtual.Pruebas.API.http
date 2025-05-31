@@ -1,0 +1,6 @@
+@CafeVirtual.Pruebas.API_HostAddress = http://localhost:5170
+
+GET {{CafeVirtual.Pruebas.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

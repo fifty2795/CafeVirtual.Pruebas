@@ -1,0 +1,196 @@
+﻿@using CafeVirtual.Pruebas.Cliente.Models
+@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model EditarUsuarioViewModel;
+
+<script src="~/js/Roles.js"></script>
+
+<div class="section-header">
+    <h1><span><i class="fas fa-user-tag me-2"></i></span>Roles</h1>
+</div>
+
+<div class="my-form-container">
+    <form id="formRol" class="form-container">
+
+        @* Id *@
+
+        <input type="hidden" id="IdRol" name="IdRol" value="@Model.IdRol" />
+
+        @* Nombre *@
+
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+                <label id="lblNombre" class="label-concepto">Nombre</label>
+                <input type="text" class="form-control" id="txtNombre" name="Nombre" value="@Model.Nombre" readonly />
+            </div>
+        </div>
+
+        @* Descripcion *@
+
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+                <label id="lblDescripcion" class="label-concepto">Descripcion</label>
+                <input type="text" class="form-control" id="txtDescripcion" name="Descripcion" value="@Model.Descripcion" readonly />
+            </div>
+        </div>
+
+        @* btn Eliminar *@
+
+        <div class="form-row">
+
+            <div class="col-md-9">
+            </div>
+
+            <div class="col-md-3">
+                <button id="btnEliminar" type="button" class="remove-btn" onclick="mostrarModalConfirmacionRol()">
+                    <span><i class="fas fa-trash-alt"></i></span>
+                    Eliminar Rol
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<!-- Modal Confirmación Eliminación de Rol -->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalEliminarRolLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="modalEliminarRolLabel">
+                    <i class="fas fa-user-tag me-2"></i>Eliminar Rol
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+
+                <p style="font-size: 0.875rem;">¿Estás seguro que deseas eliminar este rol? Esta acción es permanente y no se puede deshacer.</p>
+
+                <!-- Datos del Rol -->
+                <p style="font-size: 0.875rem;"><strong>Nombre:</strong> <span id="modalNombreRol" class="text-danger"></span></p>
+                <p style="font-size: 0.875rem;"><strong>Descripcion:</strong> <span id="modalDescripcionRol" class="text-muted"></span></p>                
+
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 0.875rem;" onclick="ocultarModalConfirmacion()">
+                    <i class="fa fa-times me-1"></i> Cancelar
+                </button>
+                <button type="button" id="confirmBtn" class="btn btn-danger" style="font-size: 0.875rem;">
+                    <i class="fas fa-trash-alt"></i> Eliminar Rol
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Actualizar Rol de Usuarios Asociados -->
+<div class="modal fade" id="modalConfirmarEliminacion" tabindex="-1" aria-labelledby="modalActualizacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="modalActualizacionLabel">
+                    <i class="fas fa-exchange-alt me-2"></i>Actualizar Rol de Usuarios Asociados
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.875rem;">
+                    El rol seleccionado tiene usuarios asociados. Para eliminar este rol, primero debes reasignar un nuevo rol a estos usuarios.
+                </p>
+
+                <!-- Fila con rol actual y label de nuevo rol -->
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <p class="mb-0" style="font-size: 0.875rem;">
+                        <strong>Rol a eliminar:</strong> <span id="modalNombreRolUpdate" class="text-danger fw-bold"></span>
+                    </p>
+                    <label for="selectNuevoRolMasivo" class="form-label fw-bold mb-0" style="font-size: 0.875rem;">
+                        Seleccionar nuevo rol para todos los usuarios
+                    </label>
+                </div>
+
+                <!-- Fila con el select alineado a la derecha -->
+                <div class="d-flex justify-content-end mb-3">
+                    <select id="selectNuevoRolMasivo" asp-for="IdRolSeleccionado" asp-items="Model.Roles" class="form-select form-select-sm" style="width: 300px; font-size: 0.875rem;" data-validate="select" required>
+                        <option value="">Seleccione un rol</option>
+                    </select>
+                </div>
+
+                <hr />
+
+                <!-- Tabla de Usuarios -->
+                <div class="table-responsive">
+                    <table class="custom-table" id="modalUsuariosTable" style="font-size: 0.875rem;">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center">NOMBRE</th>
+                                <th class="text-center">EMAIL</th>
+                                <th class="text-center">ROL ACTUAL</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalUsuariosBody">
+                            <!-- Se llenará dinámicamente -->
+                        </tbody>
+                    </table>
+
+                    <div id="modalPaginacionContainer" class="d-flex justify-content-center mt-3">
+                        <!-- Paginación dinámica -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 0.875rem;">
+                    <i class="fa fa-times me-1"></i> Cancelar
+                </button>
+                <button type="button" id="btnModalActualizarUsuarios" class="btn btn-warning" style="font-size: 0.875rem;" onclick="actualizarUsuarioByRolMasivo()">
+                    <i class="fas fa-sync-alt me-1"></i> Reasignar Rol y Continuar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Editar Rol de Usuario -->
+<div class="modal fade" id="modalEditarRolUsuario" tabindex="-1" aria-labelledby="editarRolLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editarRolLabel"><i class="fas fa-user-cog me-2"></i>Cambiar Rol de Usuario</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0" style="font-size: 0.875rem;">
+                    <strong>Usuario</strong> &nbsp;&nbsp; <span id="modalUsuarioNombre" style="font-size: 0.875rem;"></span>
+                </p>
+
+                <br />                
+
+                <div class="mb-3">
+                    <p class="mb-0" style="font-size: 0.875rem;">
+                        <strong>Nuevo rol</strong>                        
+                    </p>      
+                    <br />
+                    <select id="selectNuevoRol" asp-for="IdRolSeleccionado" asp-items="Model.Roles" class="form-control custom-select" style="font-size: 0.875rem;" data-validate="select" required>
+                        <option value="">Seleccione un rol</option>
+                    </select>
+                </div>
+                <input type="hidden" id="modalIdUsuario">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 0.875rem;"><i class="fas fa-times me-1"></i> Cancelar</button>
+                <button class="btn btn-primary" onclick="confirmarCambioRol()" style="font-size: 0.875rem;"><i class="fas fa-check me-1"></i> Actualizar Rol</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* @section Scripts {
+
+    <script>
+
+    </script>
+} *@

@@ -1,0 +1,845 @@
+﻿/********************************************************************** CSS PARA CHAT ***************************************************************/
+
+/* Icono de chat */
+#chatToggle i {
+    font-size: 0.87rem;
+    color: #2b4c81;
+    position: relative;
+    transition: color 0.3s ease;
+    font-size: 24px;
+}
+
+    #chatToggle i:hover {
+        color: #0d6efd;
+    }
+
+/* Badge para número de mensajes */
+.chat-notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    font-size: 0.65rem;
+    padding: 3px 7px;
+    border-radius: 50%;
+    font-weight: 700;
+    box-shadow: 0 0 6px rgba(220,53,69,0.7);
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Contenedor principal del chat */
+.chat-container {
+    width: 700px;
+    /*height: auto;*/
+    position: fixed;
+    top: 0;
+    right: -700px; /* Oculto por defecto */
+    background-color: #fff;
+    display: flex;
+    flex-direction: row; /* Corregido para alinear barra de usuarios */
+    z-index: 1;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.25);
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 0 0 0 12px;
+}
+
+    /* Cuando el chat está activo */
+    .chat-container.active {
+        right: 0;
+    }
+
+/*Estilo para el encabezado dentro de los mensajes del chat (Lunes 10/09/2025) */
+.chat-date-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    font-weight: 600;
+    padding: 8px 20px;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-transform: capitalize; /* Primer letra en mayúscula */
+    width: 100%;
+    margin: 15px auto;
+    max-width: 90%;
+}
+
+/* Barra lateral de usuarios conectados */
+.chat-user-list {
+    width: 60px;
+    height: auto;
+    max-height: 100%;
+    background: linear-gradient( to right, #4ea2d8, /* tono más claro - izquierda */
+    #0f619f, /* tono original - centro */
+    #093c61 /* tono más oscuro - derecha */
+    );
+    color: rgba(255, 255, 255, 0.75);
+    overflow-y: auto;
+    flex-shrink: 0;
+    flex-grow: 0;
+    position: relative;
+    z-index: 2;
+    transition: width 0.3s ease;
+    box-shadow: inset -2px 0 8px rgba(255,255,255,0.07);
+}
+
+    .chat-user-list:hover {
+        width: 300px;
+    }    
+
+.user-search-results {
+    display: flex;
+    /*align-items: center;*/
+    padding: 10px 12px;
+    /*border-bottom: 1px solid #333;*/
+    /*background: linear-gradient(90deg, #222 0%, #141414 100%);*/
+    background: linear-gradient( to right, #4ea2d8, /* tono más claro - izquierda */
+    #0f619f, /* tono original - centro */
+    #093c61 /* tono más oscuro - derecha */
+    );
+}
+
+.no-results {
+    color: rgba(255, 255, 255, 0.75);    
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Icono X del header en el chat */
+/* Estilo para el botón cuando se hace clic */
+.rotate-icon {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    /* Rotación en 180 grados */
+    .rotate-icon.rotated {
+        transform: rotate(180deg);
+    }
+
+/* Buscador de usuarios */
+.user-search {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid #333;
+    /*background: linear-gradient(90deg, #222 0%, #141414 100%);*/
+    background: linear-gradient( to right, #4ea2d8, /* tono más claro - izquierda */
+    #0f619f, /* tono original - centro */
+    #093c61 /* tono más oscuro - derecha */
+    );
+}
+
+.user-search-icon {
+    color: white;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: margin-right 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.chat-user-list:hover .user-search-icon {
+    margin-right: 10px;
+    transform: rotate(0deg);
+    color: white;
+}
+
+.user-search-input {
+    display: none;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #555;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    transition: opacity 0.3s ease, max-width 0.3s ease;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.chat-user-list:hover .user-search-input {
+    display: block;
+    max-width: 200px;
+    opacity: 1;
+    outline-offset: 2px;
+    outline-color: #0d6efd;
+}
+
+/* Estilos de usuario */
+.user-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: padding 0.3s ease, background-color 0.25s ease;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 8px;
+    margin: 4px 8px;
+}
+
+    .user-item:hover {
+        background-color: #0d6efd33;
+    }
+
+.chat-user-list:hover .user-item {
+    padding: 10px 15px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0;
+    border: 2px solid #ffffff;
+    transition: margin-right 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chat-user-list:hover .user-avatar {
+    margin-right: 10px;
+    box-shadow: 0 0 8px #0d6efdaa;
+}
+
+.user-name {
+    display: none;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    letter-spacing: 0.03em;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.chat-user-list:hover .user-name {
+    display: block;
+}
+
+/* Área principal del chat */
+.chat-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: linear-gradient(135deg, #f9fafb, #e1e5eb);
+    box-shadow: inset 2px 0 8px rgba(0,0,0,0.05);
+    border-radius: 0 0 0 12px;
+}
+
+/* Header del chat */
+.chat-header {
+    /*background-color: #2c2f33;*/
+    background: linear-gradient( to right, #4ea2d8, /* tono más claro - izquierda */
+    #0f619f, /* tono original - centro */
+    #093c61 /* tono más oscuro - derecha */
+    );
+    margin-top: 60px;
+    border-bottom: 1px solid #444;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    user-select: none;
+}
+
+.chat-header-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 18px;    
+    transition: box-shadow 0.3s ease;
+}
+
+    .chat-header-img:hover {
+        box-shadow: 0 0 10px #0d6efd88;
+    }
+
+/*.chat-username {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    user-select: text;
+}*/
+
+.chat-header .btn {
+    color: white;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+    border-radius: 6px;
+}
+
+    .chat-header .btn:hover {
+        color: #dc3545;
+        background-color: rgba(220, 53, 69, 0.15);
+    }
+
+/* Cuerpo del chat */
+.chat-body {
+    flex-grow: 1;
+    padding: 1rem 1.25rem;
+    overflow-y: auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    scroll-behavior: smooth;
+    border-radius: 0 0 12px 0;
+}
+
+/*********************************************** Estilos para Mensajes ***********************************************/
+
+.chat-message {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: flex-end;
+    max-width: 70%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    word-break: break-word;
+}
+
+    .chat-message.sent {
+        justify-content: flex-start;
+        background-color: #f8f9fa;
+        color: #222;
+        border-radius: 15px 15px 0 15px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+
+        .chat-message.sent:hover {
+            background-color: #e9ecef;
+            transform: translateX(3px);
+        }
+
+    .chat-message.received {
+        align-self: flex-end;
+        justify-content: flex-start;
+        background-color: #5ec16de6;
+        color: white;
+        border-radius: 15px 15px 15px 0;
+        box-shadow: 0 4px 10px rgba(29,201,183,0.3);
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+
+        .chat-message.received:hover {
+            box-shadow: 0 6px 16px rgba(29,201,183,0.5);
+            transform: translateX(-3px);
+        }
+
+    .chat-message img.user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 0 10px;
+        flex-shrink: 0;
+        box-shadow: 0 0 4px rgba(0,0,0,0.15);
+        transition: box-shadow 0.3s ease;
+    }
+
+        .chat-message img.user-avatar:hover {
+            box-shadow: 0 0 12px #0d6efdcc;
+        }
+
+    .chat-message .timestamp {
+        font-size: 0.75em;
+        color: #888;
+        margin-top: 5px;
+        text-align: right;
+        user-select: none;
+        font-style: italic;
+    }
+
+    .chat-message .timestampRecibed {
+        font-size: 0.75em;
+        color: white;
+        margin-top: 5px;
+        text-align: right;
+        user-select: none;
+        font-style: italic;
+    }
+
+/*********************************************** Estilos para Adjuntos de Chat ***********************************************/
+
+.adjuntos-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 80%;
+}
+
+    .adjuntos-wrapper.sent {
+        align-items: flex-start;
+        margin-right: auto;        
+    }
+
+    .adjuntos-wrapper.received {
+        align-items: flex-end;
+        margin-left: auto;
+    }
+
+
+/*********************************************** Input del Chat ***********************************************/
+
+.chat-input {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 12px 15px;
+    border-top: 1px solid #ddd;
+    box-shadow: inset 0 1px 6px rgba(0,0,0,0.07);
+    border-radius: 0 0 12px 0;
+}
+    /* Ajuste para el textarea */
+    .chat-input textarea {
+        width: 100%;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        resize: none;
+    }
+
+    .chat-input input {
+        background-color: #f0f0f0;
+        border: 1.5px solid #ccc;
+        color: #333;
+        padding: 0.6rem 1rem;
+        border-radius: 20px 0 0 20px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        outline: none;
+        flex-grow: 1;
+       /* height: 5rem;*/
+        font-size: 0.9rem;
+    }
+
+        .chat-input input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 6px #0d6efdaa;
+            background-color: #fff;
+        }
+
+   /* .chat-input .btn {
+        background-color: #0d6efd;
+        border: none;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0 20px 20px 0;
+        font-size: 0.9rem;
+        transition: background-color 0.25s ease-in-out, box-shadow 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        background-color: #0f619f;
+        border: none;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+        .chat-input .btn:hover:not(:disabled) {
+            background-color: #0056b3;
+            box-shadow: 0 0 8px #0056b3cc;
+        }
+
+        .chat-input .btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            box-shadow: none;
+        }*/
+
+#send-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+    /* Botón de enviar */
+    .chat-input .btn {
+        background-color: #0d6efd;
+        border: none;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: background-color 0.25s ease-in-out, box-shadow 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #0f619f;
+        border-radius: 8px;
+    }
+
+        .chat-input .btn:hover:not(:disabled) {
+            background-color: #0056b3;
+            box-shadow: 0 0 8px #0056b3cc;
+        }
+
+        .chat-input .btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+/***************************************************************************************************************************************************/
+
+/* Ícono de estado */
+.user-avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Imagen de usuario */
+.user-avatar-menu-perfil {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;    
+    object-fit: cover;
+}
+
+/* Ícono de estado */
+.user-status-indicator {
+    position: absolute;
+    top: 0.9rem;
+    /*right: 0;*/
+    left: 4rem;
+    background-color: #ffffff;
+    border-radius: 50%;
+    /*border: 2px solid #ffffff;*/
+    width: 14px; /* Ajusta el tamaño para que sea más visible */
+    height: 14px;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2; /* Asegura que esté sobre la imagen */
+}
+
+    /* Opcional: Colores para cada estado */
+    .user-status-indicator.online {
+        background-color: #12bf19; /* Verde */
+    }
+
+    .user-status-indicator.away {
+        background-color: #ffe600; /* Amarillo */
+    }
+
+    .user-status-indicator.busy {
+        background-color: #ff1100; /* Rojo */
+    }
+
+    .user-status-indicator.offline {
+        background-color: #9b9b9b; /* Gris */
+    }
+
+/***************************************************************************************************************************************************/
+
+/* Posiciona el menú de estatus */
+.status-menu {
+    display: none; /* Oculto por defecto */
+    font-weight: normal;
+    display: none;
+    position: absolute;
+    background-color: #e6f2fa;
+    color: #0f2f4f;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    margin-top: 200px;
+    padding: 5px 0;
+    min-width: 120px;
+    z-index: 9999;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    left: 9rem;
+}
+
+    /* Estilos para los ítems del menú */
+    .status-menu li {
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        white-space: nowrap;
+        list-style-type: none;
+    }
+
+        .status-menu li:hover {
+            background-color: #f4f4f4;
+        }
+
+/* Posiciona el menú debajo del nombre de usuario */
+.userName-perfil {
+    position: relative;
+}
+
+/* Alinea el ícono de despliegue */
+.status-toggle {
+    cursor: pointer;
+}
+
+/* Muestra el menú cuando está activo */
+.status-menu.show {
+    display: block;
+}
+
+/************************************************************************ ICONO EN CONTENEDOR DE AVATAR PANEL DE CHAT ***************************************************************************/
+/* Contenedor de avatar con ícono */
+.user-avatar-container-chat {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+/* Ícono de estado */
+.user-status-indicator-chat {
+    position: absolute;
+    top: -1px;
+    /*right: -2px;*/
+    left: 1.7rem;
+    background-color: white;
+    border-radius: 50%;
+    /*border: 2px solid white;*/
+    width: 12px;
+    height: 12px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+    /* Colores para los diferentes estados */
+    .user-status-indicator-chat.online {
+        background-color: #28a745;
+    }
+
+    .user-status-indicator-chat.away {
+        background-color: #ffc107;
+    }
+
+    .user-status-indicator-chat.busy {
+        background-color: #dc3545;
+    }
+
+    .user-status-indicator-chat.offline {
+        background-color: rgb(135 135 135 / 75%);
+    }
+
+/************************************************************************ ESTILO PARA LA LEYENDA DE ESTADO DE SESION EN CHAT ***************************************************************************/
+
+/* Fuente manuscrita y colores de estado */
+.user-status-chat {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 12px;
+    margin-top: 2px;
+    /*transition: color 0.3s;*/
+    color: white;
+}
+
+    /* Colores según estado */
+    .user-status-chat.online {
+        color: #28a745; /* Verde */
+    }
+
+    .user-status-chat.away {
+        color: #ffc107; /* Amarillo */
+    }
+
+    .user-status-chat.busy {
+        color: #dc3545; /* Rojo */
+    }
+
+    .user-status-chat.offline {
+        color: rgba(255, 255, 255, 0.75); /* Gris */
+    }
+
+    /* Suaviza los cambios de color */
+    .user-status-chat:hover {
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+/*********************************************** Estilos para el Estatus de Usuario ***********************************************/
+
+.online {
+    color: #28a745; /* Verde */
+}
+
+.away {
+    color: #ffc107; /* Amarillo */
+}
+
+.busy {
+    color: #dc3545; /* Rojo */
+}
+
+.offline {
+    color: rgb(135 135 135 / 75%); /* Gris */
+}
+
+/***************************************************************************************************************************************************/
+
+/* Ícono de estado */
+.user-avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+    /* Imagen de usuario */
+    .user-avatar-container .status-indicator {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    /* Estado online */
+    .user-avatar-container.online .status-indicator {
+        background-color: #28a745;
+        box-shadow: 0 0 10px #28a745aa;
+    }
+
+    /* Estado away */
+    .user-avatar-container.away .status-indicator {
+        background-color: #ffc107;
+        box-shadow: 0 0 10px #ffc107aa;
+    }
+
+    /* Estado busy */
+    .user-avatar-container.busy .status-indicator {
+        background-color: #dc3545;
+        box-shadow: 0 0 10px #dc3545aa;
+    }
+
+    /* Estado offline */
+    .user-avatar-container.offline .status-indicator {
+        background-color: #6c757d;
+        box-shadow: 0 0 10px #6c757daa;
+    }
+
+/************************************************************ ENVIADOS -- ESTILO PARA PREVIEW DE ARCHIVOS ADJUNTOS EN VENTANA DE CHAT *********************************************************/
+
+
+.preview-card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    max-width: 150px;
+    text-align: center;
+    position: relative;
+    background-color: #f8f9fa;
+    margin-left: 1rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+    .preview-card:hover {
+        cursor: pointer;
+        box-shadow: 0 0 0.5rem rgba(0, 123, 255, 0.5);
+        transition: box-shadow 0.2s ease;
+    }
+
+    .preview-card img {
+        max-width: 100%;
+        max-height: 80px;
+        border-radius: 0.25rem;
+    }
+
+    .preview-card .remove-btn {
+        position: absolute;
+        top: 2px;
+        right: 6px;
+        cursor: pointer;
+        color: white;
+        font-size: 0.9rem;
+        padding: 0;
+    }
+
+/************************************************************ RECIBIDOS -- ESTILO PARA PREVIEW DE ARCHIVOS ADJUNTOS EN VENTANA DE CHAT *********************************************************/
+
+/*.preview-card {
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    position: relative;
+    max-width: 250px;
+}
+
+    .preview-card img, .preview-card embed {
+        max-height: 80px;
+        border-radius: 4px;
+    }*/
+
+.remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}
+
+.file-name {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.download-btn {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 1.2rem;
+}
+
+/********************************************************************** OCULTAR Input FilePond File ***************************************************************/
+
+#fileInput {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.chat-preview-adjunto img,
+.chat-preview-adjunto embed {
+    max-width: 150px;
+    max-height: 100px;
+}
+
+.chat-preview-adjunto {
+    margin: 5px;
+    display: inline-block;
+}
+
+/********************************************************************** Estilo para Modal Preview Adjuntos **********************************************************/
+
+.modal.left-align .modal-dialog {
+    margin-left: 20rem;
+    margin-right: auto;    
+}
+
+/********************************************************************** FIN CSS PARA CHAT ***************************************************************/
+
+

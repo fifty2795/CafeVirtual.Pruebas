@@ -1,0 +1,854 @@
+﻿:root {
+    --color-bg-light: #f4f6fa;
+    --color-bg-dark: #1f1f2e;
+    --color-text-light: #1a1a1a;
+    --color-text-dark: #f1f1f1;
+    --color-accent: #4e91fc;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.80rem;
+    line-height: normal;
+    transition: background-color 0.3s, color 0.3s;
+    color: #666;
+    background-color: #6c757d1f;
+}
+
+    body.light-mode .topbar {
+        background-color: white;
+    }
+
+    body.light-mode .sidebar {
+        background-color: #0f619f;
+    }
+
+    /*body.dark-mode {
+        background-color: var(--color-bg-dark);
+        color: var(--color-text-dark);
+    }*/
+
+.content-body {
+    min-height: calc(100vh - 60px);
+    box-sizing: border-box;
+}
+
+#dashboard-container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    margin: 0;
+}
+
+.logo-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.brand-title {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.userName-title {
+    font-size: 0.9rem;
+    font-weight: 100;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar {
+    width: 260px;
+    color: white;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 10;
+    flex-shrink: 0;
+    background-image: url('~/images/tmp.webp');
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background: linear-gradient( to right, #4ea2d8, /* tono más claro - izquierda */
+    #0f619f, /* tono original - centro */
+    #093c61 /* tono más oscuro - derecha */
+    );
+}
+
+    /* .sidebar.collapsed {
+        width: 70px;
+    }*/
+
+    .sidebar .bg-user-banner {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 140px;
+        background: transparent;
+        z-index: 1;
+    }
+
+.bg-user-banner h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column; /* Apilar imagen y texto */
+    align-items: center; /* Centrar horizontalmente el contenido (imagen y texto) */
+    justify-content: center; /* Centrar verticalmente el texto */
+    gap: 8px; /* Espacio entre la imagen y el texto */
+    font-weight: 300;
+}
+
+    .bg-user-banner h2 .user-profile-img {
+        margin: 0; /* Asegura que la imagen esté completamente centrada */
+    }
+
+.bg-user-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.user-profile-img {
+    position: relative;
+    width: 6.125rem;
+    height: 6.125rem;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+.user-profile-barra-lateral-img {
+    position: relative;
+    width: 4.125rem;
+    height: 4.125rem;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+.user-profile-menu-configuracion-img {
+    position: relative;
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+.sidebar .sidebar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 0;
+}
+
+.sidebar .menu a,
+.sidebar .toggle-mode {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+}
+
+    .sidebar .menu a i,
+    .sidebar .toggle-mode i {
+        color: rgba(255, 255, 255, 0.6);
+        transition: transform 0.2s ease;
+    }
+
+    .sidebar .menu a:hover i,
+    .sidebar .toggle-mode:hover i {
+        transform: scale(1.05);
+    }
+
+.sidebar .toggle-mode {
+    margin-top: auto;
+    cursor: pointer;
+}
+
+.main-content {
+    flex: 1;
+    transition: background-color 0.3s;
+    padding: 1rem;
+    margin-left: 260px;
+    margin-top: 60px;
+    position: relative;
+    /*z-index: 1;*/
+    box-sizing: border-box;
+}
+
+/*body.dark-mode .main-content {
+    background-color: #2a2a40;
+}*/
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 260px;
+    width: calc(100% - 260px);
+    height: 60px;
+    background-color: #fff;
+    z-index: 1000;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+    .topbar .search input {
+        padding: 0.5rem;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .topbar .user-menu i {
+        cursor: pointer;
+    }
+
+#settingsToggle {
+    margin-right: 10px;
+    color: #000;
+}
+
+    #settingsToggle:hover {
+        color: #adb5bd;
+    }
+
+.user-menu-img img {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    transition: transform 0.3s ease;
+}
+
+.user-menu-img:hover img {
+    transform: scale(1.1);
+}
+
+.menu-link, .toggle-mode {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    display: block;
+    width: 180px;
+    text-align: left;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.menu-link:hover .menu-item,
+.toggle-mode:hover .menu-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
+}
+
+.toggle-mode {
+    cursor: pointer;
+}
+
+.menu-group {
+    width: 100%; /* Aseguramos que el contenedor de menú ocupe el 100% del ancho de la barra lateral */
+    margin-bottom: 1rem;
+}
+
+.menu-toggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.75);
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+    .menu-toggle i {
+        color: rgba(255, 255, 255, 0.6);
+        margin-right: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+/* Ajustes para submenu */
+.submenu {
+    width: 100%; /* Aseguramos que el submenu ocupe el 100% del ancho de la barra lateral */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.8rem;
+    margin-top: 6px;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+    .submenu a {
+        color: rgba(255, 255, 255, 0.6);
+        padding: 4px 0;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        display: block;
+        width: 100%; /* Aseguramos que el enlace ocupe el 100% del ancho del contenedor */
+    }
+
+        .submenu a i {
+            color: rgba(255, 255, 255, 0.4);
+            margin-right: 6px;
+        }
+
+.menu-group.active .submenu {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.menu-group.active > .menu-toggle {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-weight: 500;
+}
+
+    .menu-group.active > .menu-toggle i {
+        color: #fff;
+    }
+
+.menu-toggle i.fa-chevron-down {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.menu-group.active .menu-toggle i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/*.submenu a {
+    position: relative;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+    .submenu a:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+        color: #fff;
+        transform: translateX(5px);
+    }*/
+
+.submenu a {
+    display: block;
+    padding: 10px 20px;
+    color: #cfd8dc;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    border-radius: 6px;
+}
+
+    .submenu a:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        color: #ffffff;
+        transform: translateX(5px);
+    }
+
+
+    .submenu a::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 60%;
+        background-color: var(--color-accent);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .submenu a:hover::before {
+        opacity: 1;
+    }
+
+.menu-toggle:active {
+    transform: scale(0.98);
+}
+
+/* === ESTILO PARA MENU DE CONFIGURACION PERFIL === */
+
+/*.card-postick {
+    background-color: #e6f2fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    min-width: 220px;
+    animation: fadeInDrop 0.3s ease-in-out;
+    border: 1px solid #b3d4ea;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card-postick:hover {
+        background-color: #e6f2fa;*/ /* No cambia el color del fondo completo */
+/*box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    }
+
+.card-postick-header {
+    background-color: #b3d4ea;
+    border-radius: 8px 8px 0 0;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #0f2f4f;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    margin: -10px -10px 10px -10px;
+    border-bottom: 1px solid #a2c2d6;
+}*/
+
+/* Ajustar los elementos li */
+/*.card-postick li {
+    margin: 0;*/ /* Elimina márgenes */
+/*padding: 0;*/ /* Elimina padding extra */
+/*}*/
+
+/* Aseguramos que el enlace ocupe todo el ancho y alto del item */
+/*.card-postick a.dropdown-item {
+    display: block;*/ /* Asegura que el área de cada ítem ocupe todo el ancho y alto */
+/*width: 100%;*/ /* Asegura que el enlace cubra todo el ancho */
+/*height: 100%;*/ /* Asegura que el enlace cubra toda la altura */
+/*padding: 10px 15px;*/ /* Ajusta el padding para que cubra completamente el área del item */
+/*transition: background-color 0.2s, padding-left 0.2s;
+    text-decoration: none !important;
+    color: #0f2f4f;
+    border-radius: 5px;
+}*/
+
+/* Hover solo en el item y cubriendo todo el área */
+/*.card-postick a.dropdown-item:hover {
+        background-color: rgba(0, 0, 0, 0.1);*/ /* Color de fondo cuando se pasa el mouse */
+/*padding-left: 12px;
+        color: #0c3c63;*/ /* Color de texto cuando se pasa el mouse */
+/*}*/
+
+/* Estilo hover solo para el item seleccionado */
+/*.card-postick a.dropdown-item.selected {
+        background-color: #c5e1f3;*/ /* Color de fondo para item seleccionado */
+/*color: #0c3c63;
+        font-weight: bold;*/ /* Puedes hacer que el texto se destaque más */
+/*}*/
+
+/* Asegúrate de que los ítems de la lista no cambien todo el cuerpo */
+/*.card-postick .dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);*/ /* Solo el item tiene el hover */
+/*}*/
+
+/* Animación */
+/*.dropdown-menu.card-anim {
+    animation: fadeInDrop 0.3s ease-in-out;
+}*/
+
+/* === COLAPSO DE SIDEBAR === */
+.sidebar.collapsed {
+    width: 70px;
+}
+
+    /* Evita ocultar por completo el contenedor del avatar */
+    .sidebar.collapsed .userName-title {
+        font-size: 0;
+        gap: 0;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+        /* Asegura que la imagen de perfil aún se muestre */
+        .sidebar.collapsed .userName-title .user-profile-img {
+            width: 2.2rem;
+            height: 2.2rem;
+            display: block;
+            margin: auto;
+        }
+
+    /*Oculta flecha hacia abajo de cada item*/
+    .sidebar.collapsed .menu-toggle i.fa-chevron-down {
+        display: none !important;
+    }
+
+    /* Ocultar textos cuando colapsa */
+    .sidebar.collapsed .brand-title,
+    .sidebar.collapsed .menu-toggle span,
+    .sidebar.collapsed .submenu,
+    .sidebar.collapsed .toggle-mode span {
+        display: none !important;
+    }
+
+    /* Centrar íconos al colapsar */
+    .sidebar.collapsed .sidebar-header,
+    .sidebar.collapsed .menu-group,
+    .sidebar.collapsed .toggle-mode,
+    .sidebar.collapsed .menu-toggle {
+        justify-content: center;
+        text-align: center;
+    }
+
+        .sidebar.collapsed .menu-toggle i,
+        .sidebar.collapsed .toggle-mode i {
+            margin: 0 !important;
+        }
+
+    /* Ajustar imagen de usuario colapsada */
+    .sidebar.collapsed .bg-user-banner h2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0;
+        gap: 0;
+    }
+
+    .sidebar.collapsed .user-profile-img {
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+
+    /* Ajustar el contenido principal */
+    .sidebar.collapsed ~ .main-content {
+        margin-left: 70px;
+    }
+
+        /* Ajustar topbar */
+        .sidebar.collapsed ~ .main-content .topbar {
+            left: 70px;
+            width: calc(100% - 70px);
+        }
+
+/* === ESTILO PARA STICK-NOTE DE LOS MENUS === */
+.sticky-note {
+    position: absolute;
+    background-color: #e6f2fa;
+    color: #0f2f4f;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    display: none;
+    min-width: 250px; /* MÁS ANCHO */
+    max-width: 300px;
+    text-align: left; /* Posicion de contenido */
+    margin-left: 10px; /* Deja un pequeño espacio entre el sticky-note y la barra lateral */
+}
+
+    .sticky-note h5 {
+        font-size: 17px;
+        font-weight: bold;
+        margin-bottom: 20px; /* Aumento el espacio debajo del título */
+        color: #0f2f4f;
+        background-color: #e6f2fa;
+    }
+
+    .sticky-note a {
+        display: block;
+        color: #0f2f4f;
+        text-decoration: none;
+        margin: 8px 0;
+        font-size: 13px;
+    }
+
+        .sticky-note a:hover {
+            text-decoration: underline;
+        }
+
+/* === ESTILO PARA CARD-POSTICK DEL MENU PERFIL CONFIGURACION === */
+
+.card-postick {
+    /*background-color: #e6f2fa;*/
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    min-width: 220px;
+    animation: fadeInDrop 0.3s ease-in-out;
+    border: 1px solid #b3d4ea;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 0;    
+    border: none;
+    box-shadow: none;
+}
+
+    /*.card-postick:hover {
+        background-color: #e6f2fa;*/ /* No cambia el color del fondo completo */
+        /*box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    }*/
+
+.card-postick-header {
+    background: linear-gradient( to right, #4ea2d8, /* tono más claro - izquierda */
+    #0f619f, /* tono original - centro */
+    #093c61 /* tono más oscuro - derecha */
+    );
+    border-radius: 8px 8px 0 0;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    margin: -10px -10px 10px -10px;
+    width: 300px;
+    height: 100px;
+    border-bottom: 1px solid #a2c2d6;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+/* Ajustar los elementos li */
+.card-postick li {
+    margin: 0; /* Elimina márgenes */
+    padding: 0; /* Elimina padding extra */    
+}
+
+/* Aseguramos que el enlace ocupe todo el ancho y alto del item */
+.card-postick a.dropdown-item {
+    display: block; /* Asegura que el área de cada ítem ocupe todo el ancho y alto */
+    width: 100%; /* Asegura que el enlace cubra todo el ancho */
+    height: 100%; /* Asegura que el enlace cubra toda la altura */
+    padding: 10px 15px; /* Ajusta el padding para que cubra completamente el área del item */
+    transition: background-color 0.2s, padding-left 0.2s;
+    text-decoration: none !important;
+    color: #0f2f4f;
+    border-radius: 5px;
+}
+
+    /* Hover solo en el item y cubriendo todo el área */
+    .card-postick a.dropdown-item:hover {
+        background-color: rgba(0, 0, 0, 0.1); /* Color de fondo cuando se pasa el mouse */
+        padding-left: 12px;
+        color: #0c3c63; /* Color de texto cuando se pasa el mouse */
+    }
+
+    /* Estilo hover solo para el item seleccionado */
+    .card-postick a.dropdown-item.selected {
+        background-color: #c5e1f3; /* Color de fondo para item seleccionado */
+        color: #0c3c63;
+        font-weight: bold; /* Puedes hacer que el texto se destaque más */
+    }
+
+/* Asegúrate de que los ítems de la lista no cambien todo el cuerpo */
+.card-postick .dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Solo el item tiene el hover */
+}
+
+/* Animación */
+.dropdown-menu.card-anim {
+    animation: fadeInDrop 0.3s ease-in-out;
+}
+
+/* === ESTILO PARA POPOVER DASHBOARD === */
+
+/*Ajustar el tamaño del popover*/
+.popover {
+    max-width: 400px;
+    width: auto; /*Ajusta el ancho según sea necesario */
+    background-color: #e6f2fa;
+    width: 200px;
+}
+    /*Estilo para el encabezado del popover*/
+    .popover .popover-header {
+        background: linear-gradient(to right, #4ea2d8, #0f619f, #093c61);
+        color: white; /*Texto blanco */
+        padding: 10px 15px;
+        font-size: 16px; /*Puedes ajustar el tamaño según sea necesario */
+        font-weight: bold;
+    }
+
+/*Estilo para los ítems dentro del popover*/
+.popover-item {
+    padding: 4px 0;
+    color: #0f2f4f; /*Color del texto de los ítems */
+    font-size: 14px;
+    cursor: pointer;
+}
+
+    /*Separar cada ítem con dos saltos de línea*/
+    .popover-item + .popover-item {
+        margin-top: 20px; /*Agrega espacio entre los elementos */
+    }
+
+    /*Estilo en hover para los ítems*/
+    .popover-item:hover {
+        text-decoration: underline;
+    }
+
+/*Si no hay encabezado, pero se usa el contenido directamente*/
+.popover .popover-body {
+    padding: 15px; /* Ajusta el padding según sea necesario */
+}
+
+    /*Si se necesita mejorar la visibilidad de los enlaces*/
+    .popover .popover-body a {
+        color: #0f2f4f; /* Color para los links */
+    }
+
+/***************************************************************************************************************************************************/
+body.dark-mode .topbar {
+    background-color: #303133;
+    color: var(--color-text-dark);
+}
+
+    body.dark-mode .topbar .btn,
+    body.dark-mode .topbar a {
+        color: var(--color-text-dark);
+    }
+
+    body.dark-mode .topbar .search input {
+        background-color: #1a1a1a;
+        color: white;
+        border: none;
+    }
+
+    body.dark-mode .topbar .user-menu i,
+    body.dark-mode #settingsToggle {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+        body.dark-mode #settingsToggle:hover {
+            color: #adb5bd;
+        }
+
+body.dark-mode .user-menu-img img {
+    border: 2px solid #333;
+}
+
+body.dark-mode .main-content {
+    background-color: #303133;
+    color: var(--color-text-dark);
+}
+
+body.dark-mode .card-postick {
+    background-color: #38393b;
+    color: var(--color-text-dark);
+    border: 1px solid #444;
+}
+
+body.dark-mode .card-postick-header {
+    background: linear-gradient(to right, #38393b, #303133, #303133);
+    color: white;
+    border-bottom: 1px solid #555;
+}
+
+body.dark-mode .card-postick a.dropdown-item {
+    color: var(--color-text-dark);
+}
+
+    body.dark-mode .card-postick a.dropdown-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+body.dark-mode .popover {
+    background-color: #38393b;
+    color: var(--color-text-dark);
+}
+
+body.dark-mode .popover-header {
+    background: linear-gradient(to right, #38393b, #303133, #303133);
+    color: white;
+}
+
+body.dark-mode .submenu a {
+    color: #ccc;
+}
+
+    body.dark-mode .submenu a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+body.dark-mode .menu-toggle,
+body.dark-mode .toggle-mode {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+    body.dark-mode .menu-toggle:hover,
+    body.dark-mode .toggle-mode:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+/* === MODO OSCURO PARA LA SIDEBAR === */
+
+body.dark-mode .sidebar {
+    background-color: #212225 !important;
+    background-image: none !important;
+    color: var(--color-text-dark) !important;
+}
+
+    body.dark-mode .sidebar .menu a,
+    body.dark-mode .sidebar .toggle-mode {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+        body.dark-mode .sidebar .menu a i,
+        body.dark-mode .sidebar .toggle-mode i {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+body.dark-mode .menu-toggle:hover,
+body.dark-mode .toggle-mode:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .menu-group.active > .menu-toggle {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+body.dark-mode .submenu a {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+    body.dark-mode .submenu a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+/* Estilo para texto blanco dentro del popover en modo oscuro */
+body.dark-mode .popover .popover-item {
+    color: white;
+}
+
+/* Estilo para icono de confiruacion en la barra superior en modo oscuro */
+body.dark-mode #settingsToggle i {
+    color: white;
+}
+
+/* Estilo para el boton colapsar menu */
+body.dark-mode #toggleSidebar {
+    color: white !important;
+}

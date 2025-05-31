@@ -1,0 +1,95 @@
+﻿@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+    
+@model ResponseViewModel<TblCliente>;
+
+<script src="~/js/cliente.js"></script>
+
+<div class="section-header">
+    <h1><span><i class="fas fa-users me-2"></i></span>Clientes</h1>
+</div>
+
+<div class="my-form-container">
+    <form id="formCliente" class="form-container">
+        
+        <div class="form-row">
+            
+            @* Nombre *@
+
+            <div class="col-md-3">
+                <label for="txtNombre" class="label-concepto">Nombre</label>
+                <input type="text" class="form-control" id="txtNombre" name="Nombre" required />
+            </div>
+
+            @* Descripción *@
+
+            <div class="col-md-3">
+                <label for="txtDescripcion" class="label-concepto">Descripción</label>
+                <input type="text" class="form-control" id="txtDescripcion" name="Descripcion" required />
+            </div>
+
+            @* RFC *@
+
+            <div class="col-md-3">
+                <label for="txtRFC" class="label-concepto">RFC</label>
+                <input type="text" class="form-control" id="txtRFC" name="RFC" required />
+            </div>
+        </div>
+
+        <div class="form-row mt-3">
+
+            @* Email *@
+
+            <div class="col-md-3">
+                <label for="txtEmail" class="label-concepto">Email</label>
+                <input type="email" class="form-control" id="txtEmail" name="Email" required />
+            </div>          
+
+            @* Fecha de Creación *@
+
+         @*    <div class="col-md-3">
+                <label for="txtFechaCreacion" class="label-concepto">Fecha Creación</label>
+                <input type="text" class="form-control" id="txtFechaCreacion" name="FechaCreacion" placeholder="dd/mm/yyyy" data-validate="fecha" required />
+            </div> *@
+
+            <div class="col-md-1">
+                </div>
+
+            @* Activo *@
+
+            <div class="col-md-2">
+                <label for="chkBoxActivo" class="label-concepto">Activo</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="chkBoxActivo" name="Activo" @(Model.Data.Activo ? "checked" : "") />
+                </div>
+            </div>            
+        </div>
+        
+        @* btn Agregar Cliente *@
+
+        <div class="form-row mt-4">
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
+                <button id="btnGuardar" type="button" class="add-btn">
+                    <span><i class="fas fa-plus-circle"></i></span>
+                    Agregar Cliente
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+            $('#txtFechaCreacion').datepicker({
+                dateFormat: 'dd/mm/yy',
+                autoclose: true
+            });
+        });
+
+    </script>
+}

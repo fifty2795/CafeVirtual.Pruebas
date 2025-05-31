@@ -1,0 +1,107 @@
+﻿@using CafeVirtual.Pruebas.Cliente.Models
+@model AgregarUsuarioViewModel
+
+<script src="~/js/Validacion.js"></script>
+
+<!-- Modal Editar Perfil -->
+<div class="modal fade" id="modalEditarPerfil" tabindex="-1" aria-labelledby="modalEditarPerfilLabel" aria-hidden="true">    
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow">            
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarPerfilLabel">
+                    Editar Perfil
+                </h5>                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div> 
+
+            <div class="modal-body">
+                <form id="formEditarPerfil" enctype="multipart/form-data">
+
+                    @* Id Usuario *@
+
+                    <input type="hidden" id="IdUsuarioModal" name="IdUsuarioModal" value="@Model.Usuario.IdUsuario" />
+
+                    <div class="row mb-3">
+
+                        @* Nombre *@
+
+                        <div class="col-md-4">
+                            <label for="txtNombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="txtNombreModal" name="NombreModal" value="@Model.Usuario.Nombre" required />
+                        </div>
+
+                        @* Apellido Paterno *@
+
+                        <div class="col-md-4">
+                            <label for="txtApellidoPaterno" class="form-label">Apellido Paterno</label>
+                            <input type="text" class="form-control" id="txtApellidoPaternoModal" name="ApellidoPaternoModal" value="@Model.Usuario.ApellidoPaterno" required />
+                        </div>
+
+                        @* Apellido Materno *@
+
+                        <div class="col-md-4">
+                            <label for="txtApellidoMaterno" class="form-label">Apellido Materno</label>
+                            <input type="text" class="form-control" id="txtApellidoMaternoModal" name="ApellidoMaternoModal" value="@Model.Usuario.ApellidoMaterno" required />
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+
+                        @* Email *@
+
+                        <div class="col-md-4">
+                            <label for="txtEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="txtEmailModal" name="EmailModal" value="@Model.Usuario.Email" required />
+                        </div>
+
+                        @* Password *@
+
+                        <div class="col-md-4">
+                            <label for="txtPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="txtPasswordModal" name="passwordModal" />
+                        </div>
+
+                        @* Confirmar password *@
+
+                        <div class="col-md-4">
+                            <label for="txtPasswordConfirm" class="form-label">Confirmar password</label>
+                            <input type="password" class="form-control" id="txtPasswordConfirmModal" name="passwordConfirmModal" />
+                        </div>
+                    </div>
+
+                    @* Cargar Archivo *@
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+                            <label for="imagenPerfil" class="form-label">Imagen de Perfil</label>
+                            <input type="file" class="form-control" style="font-size: 0.875rem;" id="imagenPerfilModal" name="imagenPerfilModal" accept="image/*" />
+                        </div>
+
+                    </div>
+
+                    @* btn Actualizar *@
+                    <div class="text-end">
+                        <button id="btnActualizarModal" type="button" class="update-btn" onclick="actualizarUsuarioPartialView()">
+                            <span><i class="fa fa-refresh"></i></span>
+                            Actualizar Usuario
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+ 
+
+@* @section Scripts {
+
+    <script>
+
+       
+
+    </script>
+
+} *@

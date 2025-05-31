@@ -1,0 +1,981 @@
+﻿/* Fuente general coherente con el layout */
+body, .my-form-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor del datepicker */
+/* Contenedor general del datepicker */
+.ui-datepicker,
+.ui-datepicker * {
+    font-family: 'Segoe UI', sans-serif !important;
+    font-size: 0.8rem !important;
+}
+
+/* Contenedor principal plano */
+.ui-datepicker {
+    background: #fff !important;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: none !important; /* Quitamos sombra */
+    border-radius: 0 !important; /* Borde recto para estilo plano */
+    z-index: 9999 !important;
+}
+
+/* Fondo del widget padre transparente */
+.ui-widget.ui-widget-content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
+}
+
+/* Evitar cambios al pasar el mouse por filas vacías */
+.ui-datepicker tbody tr {
+    background-color: white;
+}
+
+    .ui-datepicker tbody tr:hover {
+        background-color: white;
+    }
+
+/* Cabecera del datepicker (mes y año) */
+.ui-datepicker-header {
+    background: #fff !important;
+    color: #0f619f;
+    border: none;
+    padding: 10px 0;
+    font-weight: bold;
+    border-radius: 0 !important;
+    text-align: center;
+}
+
+/* Estilos para iconos Editar y Eliminar de las tablas */
+.icon-action {
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    text-decoration: none;
+}
+
+.edit-icon {
+    color: #0d6efd; /* azul */
+}
+
+    .edit-icon:hover {
+        background-color: transparent;
+        color: #0d6efd;
+        transform: none;
+    }
+
+.delete-icon {
+    color: #dc3545; /* rojo */
+}
+
+    .delete-icon:hover {
+        background-color: transparent;
+        color: #dc3545;
+        transform: none;
+    }
+
+/* Tabla de días */
+.ui-datepicker-calendar {
+    background: #fff !important;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+    .ui-datepicker-calendar th {
+        color: #0f619f;
+        font-weight: bold;
+        padding: 5px 0;
+        background: #fff;
+    }
+
+    /* Celdas de los días */
+    .ui-datepicker-calendar td {
+        padding: 6px;
+        background-color: #fff !important;
+        transition: background-color 0.2s;
+    }
+
+        .ui-datepicker-calendar td.ui-datepicker-empty {
+            background-color: #fff !important;
+        }
+
+        /* Estilo de cada día */
+        .ui-datepicker-calendar td a {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: #333;
+            border-radius: 50%;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: transparent;
+        }
+
+            /* Hover y selección */
+            .ui-datepicker-calendar td a:hover {
+                background-color: #0f619f;
+                color: white;
+            }
+
+    .ui-datepicker-calendar .ui-state-active {
+        background-color: #0f619f !important;
+        color: white !important;
+        border-radius: 50% !important;
+    }
+
+/* Día de hoy */
+.ui-datepicker-today a {
+    border: 2px solid #0f619f;
+}
+
+.section-header {
+    width: 100%;
+    max-width: 95%;
+    /*padding: 0 20px;*/
+    margin: 0 auto; /* centra el bloque en la pantalla */
+}
+
+    .section-header h1 {
+        font-size: 1.5rem;
+    }
+
+/* Estilos para el contenedor del GIF de loading */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+    #loading img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+/* Etiquetas de conceptos */
+.label-concepto {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #495057;
+    text-align: left;
+    width: 100%;
+}
+
+/* Contenedor del formulario */
+.my-form-container {
+    padding: 10px 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+    .my-form-container .form-container {
+        width: 100%;
+        max-width: 95%;
+        padding: 20px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        background-color: #fff;
+    }
+
+    /* Estilo de título */
+    .my-form-container h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(to right, #0d5a8f, #0f619f 50%, #1670b2);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        padding: 10px 0;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Fila del formulario */
+    .my-form-container .form-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* Inputs y controles */
+    .my-form-container .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease;
+    }
+
+        .my-form-container .form-control:focus {
+            border-color: #0f619f;
+            box-shadow: 0 0 5px rgba(15, 97, 159, 0.4);
+        }
+
+    /* Select personalizado */
+    .my-form-container .custom-select {
+        appearance: none;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg..."); /* mantenido */
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 0.875rem;
+        font-size: 0.875rem;
+        padding-right: 2.5rem;
+    }
+
+    /* Checkbox */
+    .my-form-container .form-check-label {
+        font-weight: 600;
+        color: #495057;
+        font-size: 1rem;
+    }
+
+    .my-form-container .form-check-input {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        .my-form-container .form-check-input:checked {
+            background-color: #0f619f;
+            border-color: #0f619f;
+        }
+
+    /* Botones */
+    .my-form-container .btn {
+        background-color: #0f619f;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .my-form-container .btn:hover {
+            background-color: #0d548a;
+        }
+
+    /* Inputs solo lectura */
+    .my-form-container .form-control[readonly] {
+        background-color: #f4f4f4;
+        border: 1px solid #ccc;
+        color: #666;
+        cursor: not-allowed;
+        opacity: 1;
+    }
+
+    .my-form-container input[readonly]:hover,
+    .my-form-container input[readonly]:focus {
+        background-color: #f4f4f4;
+        border-color: #ccc;
+        box-shadow: none;
+    }
+
+    /* Input File */
+    .my-form-container .file {
+        font-size: 0.875rem;
+    }
+
+/* Tablas genéricas reutilizables */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .custom-table thead {
+        background-color: #0f619f;
+        color: white;
+    }
+
+    .custom-table th {
+        padding: 0.75em;
+        font-size: 1rem;
+        text-align: center;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .custom-table td {
+        padding: 0.75em;
+        font-size: 0.95rem;
+        color: #333;
+        border-bottom: 1px solid #dee2e6;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .custom-table tbody tr {
+        background-color: #f2f2f2;
+        transition: background-color 0.3s ease;
+    }
+
+        .custom-table tbody tr:hover {
+            background-color: #e1e1e1;
+        }
+
+    .custom-table tfoot td {
+        font-weight: bold;
+        background-color: #e9ecef;
+        text-align: center;
+        padding: 1rem;
+        word-wrap: break-word;
+    }
+
+    .custom-table tfoot tr {
+        text-align: right;
+    }
+
+    .custom-table tfoot td[colspan="4"] {
+        text-align: right;
+        padding-right: 20px;
+    }
+
+    .custom-table tfoot td button {
+        display: inline-block;
+        margin: 0 auto;
+        width: 100%;
+        padding: 5px;
+    }
+
+    /* Tabla de detalles estilo tarjeta */
+    .custom-table.custom-table-detalle {
+        border: 1px solid #d4d4d4;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 0.75rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        background-color: #ffffff;
+    }
+
+        /* Encabezado con azul más suave */
+        .custom-table.custom-table-detalle thead tr {
+            background-color: #63a0cf;  /*azul suave/transparente */
+            color: #0f619f;
+        }
+
+        .custom-table.custom-table-detalle thead th {
+            color: white !important;
+            font-weight: 600;
+            border-bottom: 1px solid #cfd8dc;
+            font-size: 0.95rem;
+            padding: 0.6rem;
+        }
+
+        /* Cuerpo */
+        .custom-table.custom-table-detalle tbody td {
+            background-color: #fcfcfc;
+            font-size: 0.95rem;
+            padding: 0.6rem;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Última fila sin borde */
+        .custom-table.custom-table-detalle tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Hover para mejor UX */
+        .custom-table.custom-table-detalle tbody tr:hover {
+            background-color: #f1f9ff;
+        }
+
+        /* Subtotales destacados */
+        .custom-table.custom-table-detalle td.fw-bold.text-success {
+            color: #28a745 !important;
+            font-weight: 700;
+        }
+
+.collapse .p-2 {
+    background-color: #f8f9fa;
+    border-left: 3px solid #0f619f;
+    border-radius: 0 0 8px 8px;
+}
+
+
+
+.collapse {
+    transition: height 0.35s ease;
+    overflow: hidden;
+}
+
+/* Botones funcionales */
+.add-btn {
+    background-color: #0f619f;
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+    .add-btn:hover {
+        background-color: #3d7fb2;
+        transform: translateY(-1px);
+    }
+
+    .add-btn:active {
+        transform: translateY(1px);
+    }
+
+.edit-btn {
+    background-color: #0f619f;
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .edit-btn:hover {
+        background-color: #3d7fb2;
+    }
+
+.update-btn {
+    background-color: #0f619f;
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .update-btn:hover {
+        background-color: #3d7fb2;
+    }
+
+.remove-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .remove-btn:hover {
+        background-color: #c82333;
+    }
+
+.search-btn {
+    background-color: #0f619f;
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+    .search-btn:hover {
+        background-color: #3d7fb2;
+        transform: translateY(-1px);
+    }
+
+    .search-btn:active {
+        transform: translateY(1px);
+    }
+
+.confirm-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .confirm-btn:hover {
+        background-color: #218838;
+        transform: translateY(-1px);
+    }
+
+    .confirm-btn:active {
+        transform: translateY(1px);
+    }
+
+.detalle-btn {
+    background-color: #0f619f;
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .detalle-btn:hover {
+        background-color: #3d7fb2;
+    }
+
+.excel-btn {
+    background-color: #217346; /* Verde tipo Excel */
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .excel-btn:hover {
+        background-color: #2e8b57; /* Verde un poco más claro al pasar el mouse */
+        transform: translateY(-1px);
+    }
+
+    .excel-btn:active {
+        transform: translateY(1px);
+    }
+
+.pdf-btn {
+    background-color: #c62828; /* Rojo tipo PDF */
+    color: white;
+    border: none;
+    padding: 0.4em 0.75em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .pdf-btn:hover {
+        background-color: #e53935; /* Rojo más claro al hacer hover */
+        transform: translateY(-1px);
+    }
+
+    .pdf-btn:active {
+        transform: translateY(1px);
+    }
+
+/* === ESTILO PARA POPOVER FORMULARIO === */
+
+/* Estilo personalizado directamente a popover */
+.popover-custom {
+    --bs-popover-bg: #e6f2fa;
+    background-color: var(--bs-popover-bg) !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+    .popover-custom .popover-body {
+        color: #333;
+        font-size: 14px;
+    }
+
+    .popover-custom .popover-arrow::before {
+        display: none;
+    }
+
+    .popover-custom.bs-popover-top > .popover-arrow::after {
+        border-top-color: var(--bs-popover-bg) !important;
+        border-width: 0 0.5rem 0.5rem 0.5rem;
+    }
+
+    .popover-custom.bs-popover-bottom > .popover-arrow::after {
+        border-bottom-color: var(--bs-popover-bg) !important;
+        border-width: 0.5rem 0.5rem 0 0.5rem;
+    }
+
+    .popover-custom.bs-popover-start > .popover-arrow::after {
+        border-left-color: var(--bs-popover-bg) !important;
+        border-width: 0.5rem 0.5rem 0.5rem 0;
+    }
+
+    .popover-custom.bs-popover-end > .popover-arrow::after {
+        border-right-color: var(--bs-popover-bg) !important;
+        border-width: 0.5rem 0 0.5rem 0.5rem;
+    }
+
+/* Ajuste de fuente en controles */
+.my-form-container,
+.my-form-container input,
+.my-form-container select,
+.my-form-container textarea,
+.my-form-container label,
+.my-form-container button,
+.my-form-container .form-control,
+.my-form-container .form-check-label,
+.my-form-container th,
+.my-form-container td {
+    font-size: 0.85rem !important;
+}
+
+    .my-form-container .form-control.is-valid {
+        border-color: #198754 !important;
+        padding-right: calc(1.5em + 0.75rem) !important;
+    }
+
+    .my-form-container .form-control.is-invalid {
+        border-color: #dc3545 !important;
+        padding-right: calc(1.5em + 0.75rem) !important;
+    }
+
+    .my-form-container .valid-feedback,
+    .my-form-container .invalid-feedback {
+        display: block;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+/*************************************************************************************************************************************************************/
+/* === Estilo para el modo oscuro === */
+body.dark-mode {
+    background-color: #121212; /* Fondo oscuro */
+    /*color: #e0e0e0;*/ /* Color de texto claro */
+    color: white;
+}
+
+    /* Cambiar el fondo de los formularios y elementos con fondo claro */
+    body.dark-mode .my-form-container .form-container {
+        background-color: #333;
+        border: 1px solid #555;
+    }
+
+    body.dark-mode .my-form-container h1 {
+        background: linear-gradient(to right, #0d5a8f, #0f619f 50%, #1670b2);
+        color: #fff;
+    }
+
+    /* Cambiar los bordes e inputs para modo oscuro */
+    body.dark-mode .my-form-container .form-control {
+        background-color: #444;
+        border: 1px solid #666;
+        /*color: #e0e0e0;*/
+        color: white;
+    }
+
+        body.dark-mode .my-form-container .form-control:focus {
+            border-color: #0f619f;
+            box-shadow: 0 0 5px rgba(15, 97, 159, 0.4);
+        }
+
+    /* Botones */
+    body.dark-mode .my-form-container .btn {
+        background-color: #0f619f;
+        color: white;
+    }
+
+        body.dark-mode .my-form-container .btn:hover {
+            background-color: #0d548a;
+        }
+
+    /* Tablas */
+    body.dark-mode .custom-table {
+        background-color: #333;
+        color: #e0e0e0;
+    }
+
+        /* Encabezado más oscuro que el cuerpo de la tabla */
+        body.dark-mode .custom-table thead {
+            background-color: #222; /* Más oscuro que #333 */
+            color: #fff;
+            border-bottom: 2px solid #444;
+        }
+
+        /* Encabezado con azul más suave */
+        body.dark-mode .custom-table.custom-table-detalle thead tr {
+            background-color: #333; /* gris suave */            
+        }        
+
+        body.dark-mode .custom-table tbody tr {
+            background-color: #444;
+        }
+
+            body.dark-mode .custom-table tbody tr:hover {
+                background-color: #555;
+            }
+
+    /* Estilo de inputs solo lectura */
+    body.dark-mode .my-form-container .form-control[readonly] {
+        background-color: #555;
+        border: 1px solid #444;
+        color: #888;
+    }
+
+    /* Popovers */
+    body.dark-mode .popover-custom {
+        background-color: #333 !important;
+        color: #e0e0e0 !important;
+    }
+
+    /* Checkbox */
+    body.dark-mode .my-form-container .form-check-label {
+        color: #e0e0e0;
+    }
+
+    body.dark-mode .my-form-container .form-check-input {
+        background-color: #555;
+        border-color: #777;
+    }
+
+        body.dark-mode .my-form-container .form-check-input:checked {
+            background-color: #0f619f;
+            border-color: #0f619f;
+        }
+
+    /* Cambiar la apariencia del Datepicker en el tema oscuro */
+    /*body.dark-mode .ui-datepicker {
+        background-color: #333;
+        border: 1px solid #555;
+    }
+
+    body.dark-mode .ui-datepicker-calendar td {
+        background-color: #444 !important;
+        color: #e0e0e0;
+    }
+
+    body.dark-mode .ui-datepicker-header {
+        background-color: #444;
+        color: #fff;
+    }
+
+    body.dark-mode .ui-datepicker-calendar td a {
+        color: #e0e0e0;
+    }
+
+        body.dark-mode .ui-datepicker-calendar td a:hover {
+            background-color: #0f619f;
+            color: white;
+        }*/
+
+    /* Cambiar color de enlaces en modo oscuro */
+    body.dark-mode a {
+        color: #e0e0e0;
+    }
+
+    /* Cambiar color de íconos en modo oscuro */
+    body.dark-mode .fa-cog {
+        color: #fff;
+    }
+
+    /* Ajuste de las clases del popover */
+    body.dark-mode .popover-custom {
+        --bs-popover-bg: #333;
+        background-color: var(--bs-popover-bg) !important;
+        color: #e0e0e0;
+    }
+
+/* === Estilo para el modo oscuro === */
+
+    /* Estilo para las etiquetas de conceptos */
+    body.dark-mode .label-concepto {
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 5px;
+        color: #e0e0e0; /* Cambiar color a blanco/gris claro */
+        text-align: left;
+        width: 100%;
+    }
+
+    /* Cambiar el color de texto en el contenido de la tabla */
+    body.dark-mode .custom-table td {
+        color: #fff; /* Texto blanco en las celdas */
+    }
+
+    /* Cambiar el fondo y texto de las filas de la tabla en modo oscuro */
+    body.dark-mode .custom-table tbody tr {
+        background-color: #444; /* Fondo oscuro para las filas */
+    }
+
+        body.dark-mode .custom-table tbody tr:hover {
+            background-color: #555; /* Resaltar fila en hover */
+        }
+
+    /* Cambiar el fondo de las cabeceras de la tabla */
+    /*body.dark-mode .custom-table thead {
+        background-color: #333;
+        color: #fff;*/ /* Texto blanco en las cabeceras */
+    /*}*/
+
+    body.dark-mode .custom-table th {
+        padding: 0.75em;
+        font-size: 1rem;
+        text-align: center;
+        border-bottom: 2px solid #555 !important;
+    }
+
+    /* Estilo de la fila de pie de tabla */
+    body.dark-mode .custom-table tfoot td {
+        font-weight: bold;
+        background-color: #333; /* Fondo oscuro para el pie de tabla */
+        color: #fff; /* Texto blanco en el pie */
+        text-align: center;
+        padding: 1rem;
+    }
+
+    /* Ajuste de las celdas de la tabla personalizada para detalles */
+    body.dark-mode .custom-table.custom-table-detalle tbody td {
+        background-color: #444; /* Fondo oscuro para celdas */
+        font-size: 0.95rem;
+        padding: 0.6rem;
+        text-align: center;
+        vertical-align: middle;
+        border-bottom: 1px solid #555; /* Borde oscuro */
+        color: #fff; /* Texto blanco */
+    }
+
+    body.dark-mode .custom-table.custom-table-detalle tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    body.dark-mode .custom-table.custom-table-detalle tbody tr:hover {
+        background-color: #555; /* Resaltar fila en hover */
+    }
+
+    /* Subtotales destacados en modo oscuro */
+    body.dark-mode .custom-table.custom-table-detalle td.fw-bold.text-success {
+        color: #28a745 !important;
+        font-weight: 700;
+    }
+
+    /* Cambiar color de placeholder en modo oscuro */
+    body.dark-mode ::placeholder {
+        color: #ccc !important; /* Blanco suave o gris claro */
+        opacity: 1; /* Asegura visibilidad completa del texto */
+    }
+
+/* Estilo para enlace "Ver más" */
+.ver-mas-popover,
+.text-link {
+    color: #0d6efd;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+body.dark-mode .ver-mas-popover,
+body.dark-mode .text-link {
+    color: #4da3ff; /* azul claro para tema oscuro */
+}
+
+/* Asegura que el texto dentro del popover sea blanco en tema oscuro */
+body.dark-mode .popover .popover-body,
+body.dark-mode .popover .popover-body-custom {
+    color: #fff;
+    background-color: #2c2f33;
+}
+
+/* Opcional: fondo oscuro general del popover */
+body.dark-mode .popover {
+    background-color: #2c2f33;
+    border: 1px solid #444;
+}
+
+/* Fondo de tabla expandida en modo oscuro */
+body.dark-mode .collapse .p-2 {
+    background-color: #2b2b2b; /* fondo gris oscuro contrastante */
+    border-left: 3px solid #4da3ff; /* azul claro para resaltar */    
+    border-radius: 0 0 8px 8px;
+    color: #f1f1f1; /* texto claro */
+}
+
+    /* Opcional: estilo a los textos vacíos o mensajes */
+    body.dark-mode .collapse .p-2 .text-muted {
+        color: #aaa;
+    }
+/* === Tema oscuro: Permisos del Rol a Menús === */
+body.dark-mode .rol-menus-container {
+    background-color: #2c2f33; /* Fondo del card */
+    color: #f1f1f1; /* Texto claro */
+/*    border: 1px solid #444;
+    border-radius: 8px;*/
+}
+
+    body.dark-mode .rol-menus-container h5 {
+        color: #fff;        
+    }
+
+/* En tema oscuro, conserva el mismo color */
+body.dark-mode .edit-icon {
+    color: #4da3ff; /* azul claro para contraste si deseas cambiarlo */
+}
+
+body.dark-mode .delete-icon {
+    color: #ff6b6b; /* rojo más suave en fondo oscuro si deseas */
+}
+
+body.dark-mode .details-icon {
+    color: #4da3ff; /* azul claro para contraste si deseas cambiarlo */
+}
+
+/* Desactiva efecto hover */
+.icon-action:hover {
+    color: inherit;
+    background-color: transparent;
+    transform: none;
+}
+
+/* Estilo para paginacion */
+body.dark-mode .pagination {
+    background-color: transparent;
+}
+
+    body.dark-mode .pagination .page-item .page-link {
+        background-color: #2b2b2b;
+        color: #f1f1f1;
+        border: 1px solid #444;
+    }
+
+    body.dark-mode .pagination .page-item.active .page-link {
+        background-color: #0f619f;
+        border-color: #0f619f;
+        color: #fff;
+    }
+
+    body.dark-mode .pagination .page-item.disabled .page-link {
+        background-color: #1f1f1f;
+        color: #888;
+        border-color: #333;
+        pointer-events: none;
+    }
+
+
+body.dark-mode .modal-content {
+    background-color: #2c2f33; /* fondo oscuro para el modal */
+    color: #f1f1f1; /* texto claro para contraste */
+}
+
+body.dark-mode .text-muted {
+    color: #ccc !important; /* gris claro para buena legibilidad en fondo oscuro */
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-body,
+body.dark-mode .modal-footer {
+    color: #f1f1f1;
+}

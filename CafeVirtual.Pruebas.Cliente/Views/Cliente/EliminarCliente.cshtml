@@ -1,0 +1,111 @@
+﻿@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model ResponseViewModel<TblCliente>;
+
+<script src="~/js/Cliente.js"></script>
+
+<div class="section-header">
+    <h1><span><i class="fas fa-users me-2"></i></span>Clientes</h1>
+</div>
+
+<div class="my-form-container">
+    <form id="formCliente" class="form-container">               
+
+        @* Id *@
+
+        <input type="hidden" id="IdCliente" name="IdCliente" value="@Model.Data.IdCliente" />
+
+        @* Nombre *@
+
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+                <label id="lblNombre" class="label-concepto">Nombre</label>
+                <input type="text" class="form-control" id="txtNombre" name="Nombre" value="@Model.Data.Nombre" readonly />
+            </div>
+        </div>
+
+        @* Descripcion *@
+
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+                <label id="lblDescripcion" class="label-concepto">Descripcion</label>
+                <input type="text" class="form-control" id="txtDescripcion" name="Descripcion" value="@Model.Data.Descripcion" readonly />
+            </div>
+        </div>
+
+        @* RFC *@
+
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+                <label lbl="lblRFC" class="label-concepto">RFC</label>
+                <input type="text" class="form-control" id="txtRFC" name="rfc" value="@Model.Data.Rfc" readonly />
+            </div>
+        </div>
+
+        @* Email *@
+
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+                <label lbl="lblEmail" class="label-concepto">Email</label>
+                <input type="text" class="form-control" id="txtEmail" name="Email" value="@Model.Data.Email" readonly />
+            </div>
+        </div>      
+
+        @* btn Eliminar *@
+       
+        <div class="form-row">
+            
+            <div class="col-md-9">
+            </div>
+
+            <div class="col-md-3">
+                <button id="btnEliminar" type="button" class="remove-btn" onclick="mostrarModalConfirmacionCliente()">
+                    <span><i class="fas fa-trash-alt"></i></span>
+                    Eliminar Cliente
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<!-- Modal Confirmación Eliminación de Cliente -->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalEliminarClienteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="modalEliminarClienteLabel">
+                    <i class="fa fa-user-times me-2"></i>Eliminar Cliente
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+
+                <p style="font-size: 0.875rem;">¿Estás seguro que deseas eliminar este cliente? Esta acción es permanente y no se puede deshacer.</p>
+
+                <!-- Datos del Cliente -->
+                <p style="font-size: 0.875rem;"><strong>Nombre:</strong> <span id="modalNombreCliente" class="text-danger"></span></p>
+                <p style="font-size: 0.875rem;"><strong>Descripcion:</strong> <span id="modalDescripcionCliente" class="text-muted"></span></p>
+                <p style="font-size: 0.875rem;"><strong>RFC:</strong> <span id="modalRfcCliente" class="text-muted"></span></p>
+                <p style="font-size: 0.875rem;"><strong>Email:</strong> <span id="modalEmailCliente" class="text-primary"></span></p>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 0.875rem;" onclick="ocultarModalConfirmacion()">
+                    <i class="fa fa-times me-1"></i> Cancelar
+                </button>
+                <button type="button" id="confirmBtn" class="btn btn-danger" style="font-size: 0.875rem;" onclick="eliminarCliente()">
+                    <i class="fas fa-trash-alt"></i> Eliminar Cliente
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* @section Scripts {
+
+    <script>      
+
+    </script>
+} *@

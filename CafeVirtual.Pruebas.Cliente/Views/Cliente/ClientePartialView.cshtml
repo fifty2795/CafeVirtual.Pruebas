@@ -1,0 +1,63 @@
+﻿@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model ResponseViewModel<PaginatedList<TblCliente>>
+
+<script src="~/js/Cliente.js"></script>
+
+<table id="resultsTable" class="custom-table">
+    <thead>
+        <tr>
+            <th style="display: none;">ID</th>
+            <th class ="text-center">NOMBRE</th>
+            <th class="text-center">DESCRIPCION</th>
+            <th class="text-center">RFC</th>
+            <th class="text-center">EMAIL</th>
+            <th class="text-center">ACTIVO</th>            
+            <td></td>
+            <td></td>
+            <!-- Agrega más columnas según las propiedades de TblProducto -->
+        </tr>
+    </thead>
+    <tbody id="userData">
+        @foreach (var cliente in Model.Data.Items)
+        {
+            <tr>
+                <td style="display: none;">@cliente.IdCliente</td>
+                <td>@cliente.Nombre</td>
+                <td class="popover-form">@cliente.Descripcion</td>
+                <td>@cliente.Rfc</td>
+                <td>@cliente.Email</td>
+                <td class="text-center">@cliente.Activo</td>                
+              @*   <td>
+                    <button type="button"
+                            class="update-btn"
+                            onclick="window.location.href='@Url.Action("EditarCliente", "cliente", new { id = cliente.IdCliente })'">
+                        <span><i class="fa fa-pencil" aria-hidden="true"></i></span>                        
+                        Actualizar
+                    </button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="remove-btn"
+                            onclick="window.location.href='@Url.Action("EliminarCliente", "cliente", new { id = cliente.IdCliente })'">                        
+                        <span><i class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                        Eliminar
+                    </button>
+                </td> *@
+                <td>
+                    <a href="@Url.Action("EditarCliente", "Cliente", new { id = cliente.IdCliente })"
+                       class="icon-action edit-icon" title="Editar">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("EliminarCliente", "Cliente", new { id = cliente.IdCliente })"
+                       class="icon-action delete-icon" title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+                <!-- Agrega más columnas según las propiedades de TblUsuario -->
+            </tr>
+        }
+    </tbody>
+</table>

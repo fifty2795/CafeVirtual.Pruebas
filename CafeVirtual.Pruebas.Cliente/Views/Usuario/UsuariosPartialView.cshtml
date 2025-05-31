@@ -1,0 +1,61 @@
+﻿@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model ResponseViewModel<PaginatedList<TblUsuario>>
+
+<table id="resultsTable" class="custom-table">
+    <thead>
+        <tr>
+            <th style="display: none;">ID</th>
+            <th class="text-center">NOMBRE</th>            
+            <th class="text-center">ROL</th>
+            <th class="text-center">EMAIL</th>
+            <th class="text-center">ACTIVO</th>            
+            <th></th> 
+            <th></th> 
+            <!-- Agrega más columnas según las propiedades de TblUsuario -->
+        </tr>
+    </thead>
+    <tbody id="userData">
+        @foreach (var usuario in Model.Data.Items)
+        {
+            <tr>
+                <td style="display: none;">@usuario.IdUsuario</td>
+                <td>@usuario.Nombre @usuario.ApellidoPaterno @usuario.ApellidoMaterno </td>
+                <td>@usuario.IdRolNavigation.Nombre</td>
+                <td class="text-center">@usuario.Email</td>                
+                <td class="text-center">@usuario.Activo</td>                
+               @*  <td>
+                    <button type="button"
+                            class="edit-btn"
+                            onclick="window.location.href='@Url.Action("EditarUsuario", "Usuario", new { id = usuario.IdUsuario })'">
+                        <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                        Actualizar
+                    </button>                    
+                </td>
+                <td>
+                    <button type="button"
+                            class="remove-btn"
+                            onclick="window.location.href='@Url.Action("EliminarUsuario", "Usuario", new { id = usuario.IdUsuario })'">
+                        <span><i class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                        Eliminar
+                    </button>
+                </td> *@
+
+                <td>
+                    <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.IdUsuario })"
+                       class="icon-action edit-icon" title="Editar">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("EliminarUsuario", "Usuario", new { id = usuario.IdUsuario })"
+                       class="icon-action delete-icon" title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+
+                <!-- Agrega más columnas según las propiedades de TblUsuario -->
+            </tr>
+        }
+    </tbody>
+</table>

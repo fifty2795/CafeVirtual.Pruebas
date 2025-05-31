@@ -1,0 +1,108 @@
+﻿@using CafeVirtual.Pruebas.Cliente.Models
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model RolViewModel;
+
+<script src="~/js/Roles.js"></script>
+
+<div class="section-header">
+    <h1><span><i class="fas fa-user-tag me-2"></i></span>Roles</h1>
+</div>
+
+<div class="my-form-container">
+    <form id="formRol" class="form-container">
+
+        @* Id *@
+        <input type="hidden" id="IdRol" name="IdRol" value="@Model.IdRol" />
+
+        <div class="form-row">
+
+            @* Nombre *@
+            <div class="col-md-3">
+                <label for="txtNombre" class="label-concepto">Nombre</label>
+                <input type="text" class="form-control" id="txtNombre" name="Nombre" value="@Model.Nombre" required />
+            </div>
+
+            @* Descripción *@
+            <div class="col-md-3">
+                <label for="txtDescripcion" class="label-concepto">Descripción</label>
+                <input type="text" class="form-control" id="txtDescripcion" name="Descripcion" value="@Model.Descripcion" required />
+            </div>
+
+            <div class="col-md-1">
+            </div>
+
+            @* Activo *@
+            <div class="col-md-2">
+                <label for="chkBoxActivo" class="label-concepto">Activo</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="chkBoxActivo" name="Activo" @(Model.Activo ? "checked" : "") />
+                </div>
+            </div>
+
+        </div>
+
+@*         <div class="form-row mt-3">           
+            Fecha de Creación 
+            <div class="col-md-3">
+                <label for="txtFechaCreacion" class="label-concepto">Fecha Creación</label>
+                <input type="text" class="form-control" id="txtFechaCreacion" name="FechaCreacion" value="@Model.FechaCreacionDateOnly.ToShortDateString()" placeholder="dd/mm/yyyy" data-validate="fecha" required />
+            </div>            
+        </div> *@        
+
+        @* Lista de Menus *@
+
+        <div class="form-row mt-3">
+
+            <div class="col-md-5">
+                <label id="txtTitulo" class="label-concepto">Permisos del rol a Menús</label>
+                <div class="card p-3 rol-menus-container" style="max-height: 300px; overflow-y: auto;">
+
+                    @foreach (var menu in Model.Menus)
+                    {
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input menu-checkbox"
+                                       name="MenusSeleccionados" value="@menu.Id" id="menu_@menu.Id"
+                                @(Model.MenusSeleccionados.Contains(menu.Id) ? "checked" : "") />
+                                <label class="form-check-label font-weight-bold" for="menu_@menu.Id">
+                                    @menu.Nombre
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        @* btn Actualizar *@
+        <div class="form-row mt-4">
+            <div class="col-md-9">
+            </div>
+            <div class="col-md-3">
+                <button id="btnActualizar" type="button" class="edit-btn">
+                    <span><i class="fa fa-refresh"></i></span>
+                    Actualizar Rol
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<br />
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+            $('#txtFechaCreacion').datepicker({
+                dateFormat: 'dd/mm/yy',
+                autoclose: true
+            });
+        });
+
+    </script>
+}

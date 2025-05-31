@@ -1,0 +1,364 @@
+﻿@using System.Security.Claims;
+@using Newtonsoft.Json
+@using CafeVirtual.Pruebas.Cliente.Models
+
+@{
+    Layout = null;
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var nombreUsuario = User.Identity.Name;
+    var rol = User.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
+    var fotoUrl = Url.Content(User.Claims.FirstOrDefault(c => c.Type == "FotoUrl")?.Value ?? "images/avatar-default.png");
+    var menusClaim = User.FindFirst("Menus")?.Value;
+    var menus = !string.IsNullOrEmpty(menusClaim) ? JsonConvert.DeserializeObject<List<MenuConfigViewModel>>(menusClaim) : new List<MenuConfigViewModel>();
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="user-id" content="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value">
+    <meta name="nombre-usuario" content=@nombreUsuario>
+    <meta name="fotoUrl-usuario" content=@fotoUrl>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard Moderno</title>
+
+    <script>
+        // Aplica el tema antes de que el contenido sea visible
+        (function () {
+            try {
+                if (localStorage.getItem("theme") === "dark") {
+                    document.documentElement.classList.add("dark-mode");
+                }
+            } catch (e) { }
+        })();
+
+        // Aplica collapsed a la barra lateral antes de que el contenido sea visible
+        (function () {
+            const isCollapsed = localStorage.getItem("sidebar-collapsed") === "true";
+            if (isCollapsed) {
+                document.addEventListener("DOMContentLoaded", () => {
+                    const sidebar = document.querySelector(".sidebar");
+                    if (sidebar) {
+                        sidebar.classList.add("collapsed");
+                    }
+                });
+            }
+        })();
+    </script>
+
+    @* Estilos *@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap" rel="stylesheet">
+
+    <!-- Altertify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
+    <!-- FilePond -->
+    @* <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet" /> *@
+
+    <!-- Lightbox2 -->
+    @* <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" /> *@
+
+    <link rel="stylesheet" href="@Url.Content("~/css/Datepicker/jquery-ui.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/dashboard-custom.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/Estilos.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/chat.css")" />
+
+    <link rel="icon" type="image/png" href="~/images/logo.png">
+
+    @RenderSection("Styles", required: false)
+
+</head>
+
+<body class="@(Context.Request.Cookies["theme"] == "dark" ? "dark-mode" : "")" data-theme="@Context.Request.Cookies["theme"]">
+
+    <div id="loading" style="display:none;">
+        <img src="~/gif/loading.gif" alt="Loading...">
+    </div>
+
+    @if (isAuthenticated)
+    {
+        <div id="dashboard-container">
+            <aside class="sidebar">
+                <div class="sidebar-header d-flex align-items-center justify-content-center py-3">
+                    <img src="~/images/logo.png" alt="Logo" class="logo-img me-2">
+                    <h2 class="brand-title text-white m-0">Smart Admin</h2>
+                </div>
+                <div class="bg-user-banner">
+                    <img src="~/images/tmp.webp" alt="Fondo Usuario" class="bg-user-img">
+                    <h2 class="userName-title text-white m-0 d-flex flex-column align-items-center">
+                        <img src="@fotoUrl"
+                             alt="Usuario"
+                             class="user-profile-img me-2">
+                        <b class="userName-perfil">@nombreUsuario</b>
+                    </h2>
+                </div>
+
+                <nav class="menu d-flex flex-column align-items-center py-4">
+                    @foreach (var menu in menus.OrderBy(m => m.Orden))
+                    {
+                        <div class="menu-group">
+                            <button class="menu-toggle">
+                                <i class="fas @menu.Icono me-2"></i>
+                                <span>@menu.Nombre</span>
+                                <i class="fas fa-chevron-down ms-auto"></i>
+                            </button>
+                            <div class="submenu">
+                                @foreach (var sub in menu.SubMenus)
+                                {
+                                    <a href="@sub.Url"><i class="fas @sub.Icono"></i> @sub.Nombre</a>
+                                }
+                            </div>
+                        </div>
+                    }
+                </nav>
+            </aside>
+
+            <main class="main-content">
+
+                <header class="topbar d-flex align-items-center justify-content-between px-3 py-2 shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <button id="toggleSidebar" class="btn btn-link text-dark me-3"><i class="fas fa-bars"></i></button>
+                    </div>
+                    <div class="d-flex align-items-center">
+
+                        @* Icono Chat *@
+
+                        <a href="#" id="chatToggle" class="me-3 position-relative">
+                            <i class="fas fa-comment"></i>
+                            <span class="chat-notification-badge">0</span> <!-- Número de mensajes nuevos -->
+                        </a>
+
+                        @* Icono Configuracion *@
+
+                        <a href="#" id="settingsToggle" class="me-3" onclick="showModalConfigurarPerfil()">
+                            <i class="fas fa-cog"></i>
+                        </a>
+
+                        @* Icono tema *@
+
+                        <button id="toggleMode" class="me-3 btn btn-link">
+                            <i id="toggleModeIcon" class="fas fa-sun"></i>
+                        </button>
+
+                        <div class="dropdown">
+                            <a class="dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="@fotoUrl" class="user-profile-menu-configuracion-img me-2" alt="Usuario" />
+                            </a>
+
+                            @* Menu Configuracion *@
+
+                            <ul class="dropdown-menu dropdown-menu-end card-postick" aria-labelledby="userDropdown" data-bs-auto-close="outside">
+                                <div class="card-postick-header">
+                                    <h2>
+                                        <img src="@fotoUrl" alt="Usuario" class="user-profile-barra-lateral-img">
+                                        <i id="user-status-indicator" class="user-status-indicator online"></i>
+                                        <b class="brand-title" style="font-size: 1rem;">
+                                            @nombreUsuario
+                                            &nbsp;&nbsp;&nbsp;
+                                            <span class="status-toggle" onclick="toggleStatusMenu(event)">
+                                                <i class="fa fa-angle-down"></i>
+                                            </span>
+                                        </b>
+                                    </h2>
+
+                                    <!-- Menú de Cambio de Estado -->
+                                    <ul id="status-menu" class="status-menu" data-bs-auto-close="inside">
+                                        <li onclick="cambiarEstado('online')"><i class="fas fa-circle online"></i> En línea</li>
+                                        <li onclick="cambiarEstado('away')"><i class="fas fa-circle away"></i> Ausente</li>
+                                        <li onclick="cambiarEstado('busy')"><i class="fas fa-circle busy"></i> Ocupado</li>
+                                        <li onclick="cambiarEstado('offline')"><i class="fas fa-circle offline"></i> Desconectado</li>
+                                    </ul>
+                                </div>
+                                <li>
+                                    <a id="btnMostrarModalEditarPerfil" class="dropdown-item brand-title" href="#" onclick="MostrarModalEditarPerfil()" data-bs-focus="true">
+                                        <i class="fas fa-user-edit me-2"></i>Editar perfil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnMostrarModalConfiguracion" class="dropdown-item brand-title" href="#" onclick="showModalConfigurarPerfil()">
+                                        <i class="fas fa-cog me-2"></i>Configuración
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item brand-title" href="/Login/Logout">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </header>
+
+                <section class="content-body">
+                    @RenderBody()
+                </section>
+            </main>
+
+        </div>
+    }
+    else
+    {
+        <script>
+            window.location.href = '/Login/Index';
+        </script>
+    }
+
+    @* Scripts *@
+
+    <!-- SignalR -->
+    @* <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@7.0.0/dist/browser/signalr.min.js"></script> *@
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Datepicker -->
+    <script src="@Url.Content("~/js/Datepicker/jquery-ui.js")"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Altertify -->
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <!-- FilePond -->
+    @* <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script> *@
+
+    <!-- Lightbox2 -->
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script> *@
+
+    <script src="@Url.Content("~/js/Validacion.js")"></script>
+    <script src="@Url.Content("~/js/site.js")"></script>
+    <script src="@Url.Content("~/js/General.js")"></script>
+    @* <script src="@Url.Content("~/js/Chat/Chat.js")"></script> *@
+
+    @RenderSection("Scripts", required: false);
+
+    @* Panel de Chat *@
+
+    <div id="chat-container" class="chat-container">
+        <!-- Área principal del chat -->
+        <div class="chat-main">
+            <div id="chat-header" class="chat-header">
+                @* d-flex align-items-center px-3 py-2 border-bottom *@
+                <img id="chat-header-img" src="/images/logo.png" class="logo-img me-2" alt="Usuario" />
+                <span id="chat-username" class="brand-title">Smart Admin - Chat</span>
+                <button class="btn btn-sm btn-link ms-auto text-white" onclick="toggleChat()">
+                    <i class="fas fa-times rotate-icon"></i>
+                </button>
+            </div>
+            <div class="chat-body p-3" id="chat-body">
+                <!-- Mensajes cargados dinámicamente -->
+            </div>
+
+            <!-- Div para mostrar leyenda "Escribiendo..."  -->
+            <div id="typing-indicator" style="height: 20px; font-size: 1rem; font-style: italic; color: green; margin-bottom: 4px; background-color: white;"></div>
+
+            <!-- Previsualización de archivos adjuntos -->
+            <div id="preview-archivos" class="d-flex flex-wrap gap-2 mb-2"></div>
+
+
+            <div class="chat-input border-top p-2">
+
+                <div class="input-group">
+                    <!-- Espacio donde se muestran los mensajes -->
+                    <textarea id="chat-input" class="form-control chat-input" placeholder="Escribe un mensaje..." rows="3" disabled></textarea>
+                </div>
+
+                <!-- Iconos de adjuntar debajo del textarea -->
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <div>
+                        <!-- Icono Adjuntar Archivos -->
+                        <span class="me-3" title="Adjuntar archivo" style="cursor: pointer;" onclick="return pond.browse();">
+                            <i class="fas fa-paperclip fa-lg"></i>
+                        </span>
+
+                        <!-- Input para Archivos con FilePond -->
+                        <input type="file"
+                               class="filepond"
+                               id="fileInput"
+                               name="fileInput"
+                               multiple
+                               data-max-file-size="10MB"
+                               data-max-files="5" />
+
+                        <!-- Icono Adjuntar Imagen -->
+                        <span title="Adjuntar imagen" style="cursor: pointer;" onclick="adjuntarImagen()">
+                            <i class="fas fa-image fa-lg"></i>
+                        </span>
+                    </div>
+
+                    <!-- Btn Enviar mensaje -->
+                    <div id="send-container">
+                        <div id="send-container">
+                            <button class="btn btn-primary btn-sm ms-2" onclick="sendMessage()" disabled><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra lateral de usuarios conectados -->
+        <div id="user-list" class="chat-user-list">
+            <!-- Buscador de usuarios -->
+            <div class="user-search">
+                <i class="fas fa-search user-search-icon"></i>
+                <input type="text" class="user-search-input" placeholder="Buscar usuario..." oninput="filtrarUsuarios()">
+            </div>
+            <div id="divResults" class="user-search-results" style="display: none;">
+                <!-- Mensaje de "No se encontraron resultados" -->
+                <p id="no-results" class="no-results">No se encontraron resultados</p>
+            </div>
+            <ul id="connected-users" class="list-unstyled pt-3">
+                <!-- Lista de usuarios cargada dinámicamente -->
+            </ul>
+        </div>
+    </div>
+
+    @* Modal para visualizar adjuntos de Chat *@
+    <div class="modal fade left-align" id="modalFileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Archivo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody" style="min-height: 400px;">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Contenedor para vista parcial *@
+
+    <div id="modalContainer"></div>
+
+    @* Modal Configuracion Perfil *@
+
+    <div class="modal fade" id="modalConfigurarPerfil" tabindex="-1" aria-labelledby="modalConfigurarPerfil" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConfigurarPerfil">
+                        Configuración general
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-check form-switch d-flex align-items-center" style="font-size: 0.875rem;">
+                        <input class="form-check-input me-3" type="checkbox" id="switchTemaOscuro" style="width: 3rem; height: 1.5rem;">
+                        <label class="form-check-label" for="switchTemaOscuro" style="font-size: 0.875rem;">Cambiar a tema oscuro</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

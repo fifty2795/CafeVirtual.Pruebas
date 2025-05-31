@@ -1,0 +1,171 @@
+﻿@using CafeVirtual.Pruebas.Data.Models;
+@using CafeVirtual.Pruebas.Utilidades.Model;
+@model ResponseViewModel<PaginatedList<TblUsuario>>
+
+<div class="section-header">
+    <h1><span><i class="fas fa-user me-2"></i></span>Usuarios</h1>
+</div>
+
+<div class="my-form-container">
+    <div class="form-container">        
+
+        <form asp-action="Index" method="get">
+
+            <div class="row">
+
+                @* btn Agregar Usuario *@
+
+                <div class="col-md-3">
+                    <a asp-controller="Usuario" asp-action="AgregarUsuario" class="add-btn">
+                        <span><i class="fas fa-plus-circle"></i></span>
+                        Agregar nuevo
+                    </a>
+                </div>
+
+                <div class="col-md-2">
+                </div>
+
+                @* Input busqueda *@
+
+                <div class="col-md-4">
+                    <input type="text" id="txtBusqueda" name="txtBusqueda" class="form-control" placeholder="Buscar por nombre, apellidos, rol o email" value="@ViewData["Busqueda"]" />
+                </div>                
+
+                @* btn Buscar *@
+
+                <div class="col-md-3">
+                    <button class="search-btn" id="btnBuscarUsuario">
+                        <span><i class="fas fa-search"></i></span>
+                        Buscar
+                    </button>
+                </div>              
+              
+            </div>
+
+            <br />
+
+        </form>
+
+        <hr />
+
+        <div id="usuariosTable">
+            @Html.Partial("usuariosPartialView", Model)
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(Model.Data.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="?pageNumber=@(Model.Data.PageIndex - 1)&txtBusqueda=@ViewData["Busqueda"]">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.Data.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.Data.PageIndex ? "active" : "")">
+                        <a class="page-link" href="?pageNumber=@i&txtBusqueda=@ViewData["Busqueda"]">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.Data.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="?pageNumber=@(Model.Data.PageIndex + 1)&txtBusqueda=@ViewData["Busqueda"]">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+@* <div class="row">
+    <!-- Formulario para exportar a Excel -->
+    <form asp-action="ExportarTabla" method="get" class="col-md-2">
+        <div class="form-group">
+            <button id="exportarBtn" class="btn btn-primary" onclick="ExportarExcel()">Exportar a Excel</button>
+        </div>
+    </form>
+
+    <!-- Formulario para importar Excel -->
+    <form id="importForm" enctype="multipart/form-data" class="col-md-5">
+        <div class="form-group d-flex align-items-center">
+            <button class="btn btn-primary mr-3" type="submit">Importar Excel</button>
+            <div class="form-group">
+                <input type="file" class="form-control" id="fileInput" name="fileInput" accept=".xlsx, .xls" />
+            </div>
+        </div>
+    </form>
+</div> *@
+
+@* @section Scripts {
+
+    <script>
+
+        // $(document).ready(function () {
+        //     $('#importForm').submit(function (event) {
+        //         event.preventDefault();
+        //         var formData = new FormData(this);
+
+        //         $.ajax({
+        //             url: '@Url.Action("ImportarExcel", "Usuario")',
+        //             type: 'POST',
+        //             data: formData,
+        //             contentType: false,
+        //             processData: false,
+        //             success: function (response) {
+        //                 // Verificar si la respuesta contiene la lista de usuarios
+        //                 // if (response.dataList.length > 0) {
+        //                 //     // Limpiar la tabla actual
+        //                 //     $('#userData').empty();
+
+        //                 //     $.each(response.dataList, function (index, usuario) {
+        //                 //         var row = '<tr>' +
+        //                 //             '<td>' + usuario.idUsuario + '</td>' +
+        //                 //             '<td>' + usuario.nombre + '</td>' +
+        //                 //             '<td>' + usuario.apellidoPaterno + '</td>' +
+        //                 //             '<td>' + usuario.apellidoMaterno + '</td>' +
+        //                 //             '<td>' + usuario.identificacion + '</td>' +
+        //                 //             '<td>' + usuario.cargo + '</td>' +
+        //                 //             '<td>' + (usuario.activo ? 'Sí' : 'No') + '</td>' +
+        //                 //             '<td>' + new Date(usuario.fechaCreacion).toLocaleDateString() + '</td>' +
+        //                 //             '<td><a asp-controller="Usuario" asp-action="EditarUsuario" asp-route-id="' + usuario.idUsuario + '">Actualizar</a></td>' +
+        //                 //             '<td><a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-id="' + usuario.idUsuario + '">Eliminar</a></td>' +
+        //                 //             '</tr>';
+        //                 //         $('#userData').append(row);
+        //                 //     });
+        //                 // }
+        //             },
+        //             error: function (error) {
+        //                 console.error('Error:', error);
+        //             }
+        //         });
+        //     });
+        // });
+
+        // document.getElementById('exportarBtn').addEventListener('click', function (event) {
+        //     event.preventDefault();
+        //     var nombreUsuario = document.getElementById('txtNombreUsuario').value;
+        //     var url = '@Url.Action("ExportarExcel", "Usuario")' + '?nombreUsuario=' + nombreUsuario;
+        //     window.location.href = url;
+        // });
+
+        // document.getElementById('searchInput').addEventListener('input', function () {
+        //     var searchTerm = this.value.toLowerCase();
+        //     var table = document.getElementById('resultsTable');
+        //     var rows = table.getElementsByTagName('tr');
+
+        //     for (var i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+        //         var cells = rows[i].getElementsByTagName('td');
+        //         var found = false;
+
+        //         for (var j = 0; j < cells.length; j++) {
+        //             if (cells[j].textContent.toLowerCase().includes(searchTerm)) {
+        //                 found = true;
+        //                 break;
+        //             }
+        //         }
+
+        //         if (found) {
+        //             rows[i].style.display = '';
+        //         } else {
+        //             rows[i].style.display = 'none';
+        //         }
+        //     }
+        // });
+
+    </script>
+} *@

@@ -789,14 +789,14 @@
         border-radius: 4px;
     }*/
 
-.remove-btn {
+/*.remove-btn {
     position: absolute;
     top: 4px;
     right: 6px;
     cursor: pointer;
     color: red;
     font-weight: bold;
-}
+}*/
 
 .file-name {
     flex-grow: 1;
